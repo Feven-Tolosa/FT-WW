@@ -1,7 +1,7 @@
 export default function Home() {
   return (
-    <div className='flex min-h-screen flex-col items-center justify-center bg-background text-foreground'>
-      Home Page
-    </div>
+    <main className='min-h-screen flex items-center justify-center'>
+      <h1 className='text-3xl font-bold'>TF Furniture 🪑</h1>
+    </main>
   )
 }
