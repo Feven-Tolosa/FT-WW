@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 export default function Navbar() {
   return (
-    <header className='border-b bg-amber-50'>
+    <header className='border-b bg-amber-50 fixed w-full top-0 left-0 z-10'>
       <nav className='max-w-7xl mx-auto px-6 py-4 flex items-center justify-between'>
         {/* Logo */}
         <Link
