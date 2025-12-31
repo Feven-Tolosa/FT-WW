@@ -16,7 +16,7 @@ export default function Home() {
       {/* Hero Section */}
       <section className='bg-gray-50 py-20 mt-15'>
         <div className='max-w-7xl mx-auto px-6 text-center'>
-          <h1 className='text-4xl md:text-5xl font-bold mb-6'>
+          <h1 className='text-4xl md:text-5xl font-bold mb-6 text-[var(--wood)]'>
             Crafted Furniture for Everyday Living
           </h1>
           <p className='text-gray-600 max-w-2xl mx-auto mb-8'>
@@ -34,11 +34,15 @@ export default function Home() {
 
       {/* Furniture Section */}
       <section id='furniture' className='max-w-7xl mx-auto px-6 py-20'>
-        <h2 className='text-2xl font-semibold mb-8'>Available Furniture</h2>
+        <h2 className='text-2xl font-semibold mb-8 text-[var(--wood)]'>
+          Available Furniture
+        </h2>
 
-        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8'>
+        <div className='columns-1 sm:columns-2 md:columns-3 gap-8'>
           {furniture.map((item) => (
-            <FurnitureCard key={item.id} name={item.name} price={item.price} />
+            <div key={item.id} className='mb-8 break-inside-avoid'>
+              <FurnitureCard name={item.name} price={item.price} />
+            </div>
           ))}
         </div>
       </section>
