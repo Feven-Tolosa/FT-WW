@@ -1,4 +1,5 @@
 'useclient'
+import Image from 'next/image'
 import Link from 'next/link'
 
 export default function Navbar() {
@@ -10,7 +11,12 @@ export default function Navbar() {
           href='/'
           className='text-2xl font-bold text-[var(--wood)] hover:text-[var(--wood-dark)]'
         >
-          TF
+          <Image
+            src='/images/logos.png'
+            alt='TF Wood Works'
+            width={50}
+            height={50}
+          />
         </Link>
 
         {/* Links */}
