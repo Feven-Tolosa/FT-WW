@@ -5,21 +5,27 @@ const furniture = [
   { id: 1, name: 'Wooden Chair', price: 3500 },
   { id: 2, name: 'Dining Table', price: 12000 },
   { id: 3, name: 'Bed Frame', price: 18000 },
-  { id: 1, name: 'Wooden Chair', price: 3500 },
-  { id: 2, name: 'Dining Table', price: 12000 },
-  { id: 3, name: 'Bed Frame', price: 18000 },
+  { id: 4, name: 'Wooden Chair', price: 3500 },
+  { id: 5, name: 'Dining Table', price: 12000 },
+  { id: 6, name: 'Bed Frame', price: 18000 },
+  { id: 7, name: 'Wooden Chair', price: 3500 },
+  { id: 8, name: 'Dining Table', price: 12000 },
+  { id: 9, name: 'Bed Frame', price: 18000 },
+  { id: 10, name: 'Wooden Chair', price: 3500 },
+  { id: 11, name: 'Dining Table', price: 12000 },
+  { id: 12, name: 'Bed Frame', price: 18000 },
 ]
 
 export default function Home() {
   return (
     <>
       {/* Hero Section */}
-      <section className='bg-gray-50 py-20 mt-15'>
+      <section className='bg-gray-50 py-20 mt-15 min-h-screen bg-cover bg-center bg-[url("/images/2.png")] flex items-center'>
         <div className='max-w-7xl mx-auto px-6 text-center'>
-          <h1 className='text-4xl md:text-5xl font-bold mb-6 text-[var(--wood)]'>
+          <h1 className='text-4xl md:text-5xl font-bold mb-6  '>
             Crafted Furniture for Everyday Living
           </h1>
-          <p className='text-gray-600 max-w-2xl mx-auto mb-8'>
+          <p className=' max-w-2xl mx-auto mb-8'>
             Discover quality wooden furniture made with care, durability, and
             timeless design.
           </p>

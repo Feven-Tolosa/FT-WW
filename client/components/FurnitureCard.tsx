@@ -16,7 +16,7 @@ export default function FurnitureCard({
       {/* Image Section */}
       <div className='relative h-52 w-full'>
         <Image
-          src={imageUrl || '/images/image.png'}
+          src={imageUrl || '/images/1.png'}
           alt={name}
           fill
           className='object-cover'
