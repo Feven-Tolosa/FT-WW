@@ -1,7 +1,7 @@
 'use client'
 export default function Footer() {
   return (
-    <footer className='bg-gray-50 border-t mt-20 mb-0'>
+    <footer className='bg-gray-50 border-t  mb-0'>
       <div className='max-w-7xl mx-auto px-6 py-10 text-sm text-gray-600'>
         <div className='flex flex-col md:flex-row justify-between gap-6'>
           <div>

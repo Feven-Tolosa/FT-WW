@@ -26,7 +26,9 @@ export default function FurnitureCard({
 
       {/* Content */}
       <div className='p-4'>
-        <h3 className='font-semibold text-lg mb-1'>{name}</h3>
+        <h3 className='font-semibold text-lg mb-1 text-[var(--wood)]'>
+          {name}
+        </h3>
         <p className='text-gray-600 mb-4'>{price} ETB</p>
 
         <button className='w-full bg-[var(--wood)] text-white py-2 rounded hover:bg-[var(--wood-dark)]'>
