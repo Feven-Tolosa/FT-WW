@@ -1,5 +1,6 @@
 'use client'
 import FurnitureCard from '@/components/FurnitureCard'
+import AdminDashboard from './admin/dashboard/page'
 
 const furniture = [
   { id: 1, name: 'Wooden Chair', price: 3500 },
