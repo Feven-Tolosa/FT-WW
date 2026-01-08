@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 export default function AdminDashboard() {
   return (
     <div className='min-h-screen flex bg-gray-100'>
@@ -8,15 +10,21 @@ export default function AdminDashboard() {
         </h2>
 
         <nav className='space-y-4 text-sm'>
-          <a className='block font-medium text-gray-700 hover:text-[var(--wood)]'>
+          <Link
+            href='/admin/dashboard'
+            className='block hover:text-[var(--wood)]'
+          >
             Dashboard
-          </a>
-          <a className='block font-medium text-gray-700 hover:text-[var(--wood)]'>
+          </Link>
+          <Link
+            href='/admin/dashboard/furniture'
+            className='block hover:text-[var(--wood)]'
+          >
             Furniture
-          </a>
-          <a className='block font-medium text-gray-700 hover:text-[var(--wood)]'>
+          </Link>
+          <Link href='#' className='block hover:text-[var(--wood)]'>
             Orders
-          </a>
+          </Link>
         </nav>
       </aside>
 
