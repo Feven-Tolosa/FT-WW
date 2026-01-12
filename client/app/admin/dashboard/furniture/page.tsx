@@ -48,7 +48,9 @@ export default function FurniturePage() {
       {/* Header */}
 
       <div className='flex justify-between items-center pt-25 mb-6'>
-        <h1 className='text-2xl font-semibold'>Furniture Management</h1>
+        <h1 className='text-2xl px-3 font-semibold text-gray-700'>
+          Furniture Management
+        </h1>
         <button
           onClick={openAddModal}
           className='bg-[var(--wood)] text-white px-4 py-2 rounded hover:bg-[var(--wood-dark)]'
@@ -58,9 +60,9 @@ export default function FurniturePage() {
       </div>
 
       {/* Table */}
-      <div className='bg-white rounded-lg shadow overflow-hidden'>
+      <div className='bg-white rounded-lg shadow overflow-hidden mb-100'>
         <table className='w-full text-sm'>
-          <thead className='bg-gray-100 text-left'>
+          <thead className='bg-gray-100 text-gray-600 text-left'>
             <tr>
               <th className='p-3'>Name</th>
               <th className='p-3'>Price (ETB)</th>
@@ -70,7 +72,7 @@ export default function FurniturePage() {
 
           <tbody>
             {furniture.map((item) => (
-              <tr key={item.id} className='border-t'>
+              <tr key={item.id} className='border-t text-gray-500'>
                 <td className='p-3'>{item.name}</td>
                 <td className='p-3'>{item.price}</td>
                 <td className='p-3 text-right space-x-3'>
