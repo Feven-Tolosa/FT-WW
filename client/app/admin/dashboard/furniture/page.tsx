@@ -95,7 +95,7 @@ export default function FurniturePage() {
         {isOpen && (
           <div className='fixed inset-0 bg-black/40 flex items-center justify-center z-50'>
             <div className='bg-white rounded-lg w-full max-w-md p-6'>
-              <h2 className='text-xl font-semibold mb-4'>
+              <h2 className='text-xl font-semibold text-gray-500 mb-4'>
                 {editingItem ? 'Edit Furniture' : 'Add Furniture'}
               </h2>
 
@@ -103,7 +103,7 @@ export default function FurniturePage() {
               <input
                 type='text'
                 placeholder='Furniture Name'
-                className='w-full border p-2 rounded mb-3'
+                className='w-full border p-2 text-gray-400 rounded mb-3'
                 value={formData.name}
                 onChange={(e) =>
                   setFormData({ ...formData, name: e.target.value })
@@ -114,7 +114,7 @@ export default function FurniturePage() {
               <input
                 type='number'
                 placeholder='Price (ETB)'
-                className='w-full border p-2 rounded mb-4'
+                className='w-full border p-2 text-gray-400 rounded mb-4'
                 value={formData.price}
                 onChange={(e) =>
                   setFormData({ ...formData, price: e.target.value })
@@ -135,7 +135,7 @@ export default function FurniturePage() {
               <div className='flex justify-end gap-3'>
                 <button
                   onClick={closeModal}
-                  className='px-4 py-2 rounded border'
+                  className='px-4 py-2 rounded text-gray-400 border'
                 >
                   Cancel
                 </button>
