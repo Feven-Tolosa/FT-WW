@@ -45,14 +45,12 @@ export default function FurniturePage() {
   }
 
   return (
-    <div className='min-h-screen grid grid-cols-12 gap-8 '>
-      {/* Header */}
-      <div className='col-span-2'>
-        <Aside />
-      </div>
-      <div className='col-span-10 px-10'>
-        <div className='flex flex-1 justify-between items-center pt-25 mb-6'>
-          <h1 className='text-2xl px-3 font-semibold text-gray-700'>
+    <div className='min-h-screen flex bg-gray-100'>
+      <Aside />
+
+      <div className='flex-1 p-8 mt-13'>
+        <div className='flex flex-1 justify-between items-center  mb-6'>
+          <h1 className='text-2xl px-3 font-semibold text-gray-800'>
             Furniture Management
           </h1>
           <button

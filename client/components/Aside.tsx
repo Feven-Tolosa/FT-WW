@@ -22,7 +22,7 @@ function Aside() {
           Furniture
         </Link>
         <Link
-          href='#'
+          href='/admin/dashboard/orders'
           className='block text-gray-500 font-semibold hover:text-gray-800'
         >
           Orders

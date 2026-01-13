@@ -8,8 +8,10 @@ export default function AdminDashboard() {
       <Aside />
 
       {/* Main Content */}
-      <main className='flex-1 p-8'>
-        <h1 className='text-2xl font-semibold mb-6'>Dashboard Overview</h1>
+      <main className='flex-1 p-8 mt-13'>
+        <h1 className='text-2xl font-semibold text-gray-800 mb-6'>
+          Dashboard Overview
+        </h1>
 
         {/* Stats */}
         <div className='grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10'>
