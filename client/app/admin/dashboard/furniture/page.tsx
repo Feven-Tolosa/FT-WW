@@ -8,14 +8,17 @@ type Furniture = {
   id: number
   name: string
   price: number
+  category: 'Chair' | 'Table' | 'Bed' | 'Shelf'
+  image?: string
 }
 
 export default function FurniturePage() {
-  const [furniture, setFurniture] = useState<Furniture[]>([
-    { id: 1, name: 'Wooden Chair', price: 3500 },
-    { id: 2, name: 'Dining Table', price: 12000 },
-    { id: 3, name: 'Bed Frame', price: 18000 },
-  ])
+  const furniture: Furniture[] = [
+    { id: 1, name: 'Wooden Chair', price: 4500, category: 'Chair' },
+    { id: 2, name: 'Office Chair', price: 5200, category: 'Chair' },
+    { id: 3, name: 'Dining Table', price: 18000, category: 'Table' },
+    { id: 4, name: 'Bed Frame', price: 25000, category: 'Bed' },
+  ]
 
   const [isOpen, setIsOpen] = useState(false)
   const [editingItem, setEditingItem] = useState<Furniture | null>(null)
