@@ -15,6 +15,10 @@
   :root {
     --background: #ffffff;
     --foreground: #ededed;
+    --wood: #8b5a2b;
+    --wood-dark: #6f451e;
+    --black-soft: #111111;
+    --gray-soft: #f5f5f5;
   }
 }
 
