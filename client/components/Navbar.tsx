@@ -1,40 +1,60 @@
-'useclient'
-import Image from 'next/image'
+'use client'
+
 import Link from 'next/link'
+import Container from './Container'
+import { Search, ShoppingCart, Heart } from 'lucide-react'
+import Image from 'next/image'
 
 export default function Navbar() {
   return (
-    <header className='border-b bg-amber-50 fixed w-full top-0 left-0 z-10'>
-      <nav className='max-w-7xl mx-auto px-6 py-4 flex items-center justify-between'>
-        {/* Logo */}
-        <Link
-          href='/'
-          className='text-2xl font-bold text-[var(--wood)] hover:text-[var(--wood-dark)]'
-        >
-          <Image
-            src='/images/logos.png'
-            alt='TF Wood Works'
-            width={50}
-            height={50}
-          />
-        </Link>
-
-        {/* Links */}
-        <div className='space-x-6 text-sm font-medium'>
-          <Link href='/' className='text-[var(--wood)] hover:underline'>
-            Categories
-          </Link>
-          <Link href='/' className='text-[var(--wood)] hover:underline'>
-            Order
-          </Link>
+    <header className='fixed top-0 w-full z-50 bg-black/95 backdrop-blur-md shadow-md'>
+      <Container>
+        <nav className='flex items-center justify-between h-20'>
+          {/* Logo */}
           <Link
-            href='/admin/dashboard'
-            className='bg-[var(--wood)] text-white px-4 py-2 rounded hover:bg-[var(--wood-dark)]'
+            href='/'
+            className='text-white text-xl font-light tracking-wider'
           >
-            Admin
+            <Image src='/images/logos.png' alt='logo' width={50} height={50} />
           </Link>
-        </div>
-      </nav>
+
+          {/* Menu */}
+          <ul className='hidden md:flex gap-6 text-white text-sm tracking-wide'>
+            {['Shop', 'Chairs', 'Tables', 'Beds', 'About'].map((item) => (
+              <li key={item}>
+                <Link
+                  href={`/${item.toLowerCase()}`}
+                  className='relative group'
+                >
+                  {item}
+                  <span
+                    className='
+                      absolute left-0 -bottom-1 w-0 h-[1px]
+                      bg-white transition-all duration-300
+                      group-hover:w-full
+                    '
+                  />
+                </Link>
+              </li>
+            ))}
+          </ul>
+
+          {/* Icons */}
+          <div className='flex items-center gap-6 text-white'>
+            <button className='hover:opacity-70 transition'>
+              <Search size={18} />
+            </button>
+
+            <button className='hover:opacity-70 transition'>
+              <Heart size={18} />
+            </button>
+
+            <Link href='/cart' className='hover:opacity-70 transition'>
+              <ShoppingCart size={18} />
+            </Link>
+          </div>
+        </nav>
+      </Container>
     </header>
   )
 }
