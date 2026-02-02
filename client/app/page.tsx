@@ -1,5 +1,6 @@
 'use client'
 import FurnitureCard from '@/components/FurnitureCard'
+import Hero from '@/components/Hero'
 
 const furniture = [
   { id: 1, name: 'Wooden Chair', price: 3500 },
@@ -20,7 +21,7 @@ export default function Home() {
   return (
     <>
       {/* Hero Section */}
-      <section className='bg-gray-50 py-20 mt-15 min-h-screen bg-cover bg-center bg-[url("/images/2.png")] flex items-center'>
+      {/* <section className='bg-gray-50 py-20 mt-15 min-h-screen bg-cover bg-center bg-[url("/images/2.png")] flex items-center'>
         <div className='max-w-7xl mx-auto px-6 text-center'>
           <h1 className='text-4xl md:text-5xl font-bold mb-6  '>
             Crafted Furniture for Everyday Living
@@ -36,8 +37,8 @@ export default function Home() {
             Browse Furniture
           </a>
         </div>
-      </section>
-
+      </section> */}
+      <Hero />
       {/* Furniture Section */}
       <section id='furniture' className='max-w-7xl mx-auto px-6 py-20'>
         <h2 className='text-2xl font-semibold mb-8 text-[var(--wood)]'>
