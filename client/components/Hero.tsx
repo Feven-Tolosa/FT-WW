@@ -53,15 +53,15 @@ export default function Hero() {
 
       {slides.map((slide, index) => (
         <Image
-          key={slide.image}
+          key={slides[current].image}
           fill
-          src={slide.image}
+          src={slides[current].image}
           alt='hero slide'
-          priority={index === 0}
-          className={`
-      absolute inset-0 object-cover transition-opacity duration-2000
-      ${index === current ? 'opacity-100' : 'opacity-0'}
-    `}
+          priority
+          className='
+    absolute inset-0 object-cover
+    animate-heroZoom
+  '
         />
       ))}
 

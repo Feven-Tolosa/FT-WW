@@ -55,3 +55,16 @@ body {
 .animate-heroFade {
   animation: heroFade 0.9s ease-out forwards;
 }
+
+@keyframes heroZoom {
+  from {
+    transform: scale(1.12);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.animate-heroZoom {
+  animation: heroZoom 7s ease-out forwards;
+}
