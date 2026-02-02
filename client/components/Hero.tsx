@@ -35,18 +35,12 @@ export default function Hero() {
     const timer = setInterval(nextSlide, 7000)
     return () => clearInterval(timer)
   }, [])
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % slides.length)
-    }, 6000) // slow & elegant
 
-    return () => clearInterval(interval)
-  }, [])
   return (
     <section className='relative h-[110vh]'>
       <button
         onClick={prevSlide}
-        className='absolute left-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full border border-white/40 text-white hover:border-white transition'
+        className='absolute left-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full border border-white/40 text-white hover:border-wood-dark hover:text-wood-dark transition'
       >
         ←
       </button>
@@ -65,7 +59,7 @@ export default function Hero() {
           alt='hero slide'
           priority={index === 0}
           className={`
-      absolute inset-0 object-cover transition-opacity duration-1000
+      absolute inset-0 object-cover transition-opacity duration-2000
       ${index === current ? 'opacity-100' : 'opacity-0'}
     `}
         />
@@ -75,18 +69,26 @@ export default function Hero() {
 
       <div className='relative z-10 flex items-center h-full'>
         <Container>
-          <div className='max-w-3xl transition-opacity duration-7000'>
-            <h1 className='text-white text-5xl md:text-6xl font-light tracking-wide leading-tight'>
+          <div key={current} className='max-w-3xl'>
+            {/* HEADLINE — fade only */}
+            <h1
+              className='
+          text-white text-5xl md:text-6xl font-light tracking-wide leading-tight
+          opacity-0 animate-heroFade
+        '
+            >
               {slides[current].title}
               <br />
               {slides[current].subtitle}
             </h1>
 
-            <p className='text-gray-200 mt-6 max-w-xl'>
+            {/* REST — slide + fade */}
+
+            <p className='text-gray-200 mt-6 max-w-xl opacity-0 translate-y-6 animate-heroText delay-100'>
               {slides[current].description}
             </p>
 
-            <button className='mt-8 flex items-center gap-3 text-white border-b border-white/60 hover:border-white transition-all'>
+            <button className='mt-8 flex items-center gap-3 text-white border-b border-white/60 hover:border-white transition-all opacity-0 translate-y-6 animate-heroText delay-200'>
               Shop now →
             </button>
           </div>
