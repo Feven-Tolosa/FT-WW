@@ -1,37 +1,65 @@
 import Image from 'next/image'
 
-type FurnitureCardProps = {
+interface FurnitureCardProps {
   name: string
   price: number
-  imageUrl?: string // optional, for future backend images
+  image?: string
 }
 
 export default function FurnitureCard({
   name,
   price,
-  imageUrl,
+  image = '/images/1.png',
 }: FurnitureCardProps) {
   return (
-    <div className='bg-white border rounded-lg overflow-hidden hover:shadow-lg transition'>
-      {/* Image Section */}
-      <div className='relative h-52 w-full'>
+    <div
+      className='group relative bg-white overflow-hidden rounded-sm group-hover:-translate-y-1 transition-transform duration-500 hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)]
+'
+    >
+      {/* Image wrapper */}
+      <div className='relative aspect-[3/4] overflow-hidden'>
         <Image
-          src={imageUrl || '/images/1.png'}
+          src={image}
           alt={name}
           fill
-          className='object-cover'
-          priority
+          className='
+            object-cover
+            transition-transform duration-[1200ms] ease-out
+            group-hover:scale-110
+          '
         />
       </div>
 
       {/* Content */}
-      <div className='p-4'>
-        <h3 className='font-semibold text-lg mb-1 text-[var(--wood)]'>
-          {name}
-        </h3>
-        <p className='text-gray-600 mb-4'>{price} ETB</p>
+      <div className='pt-4 pb-6 text-center'>
+        <h3 className='text-gray-900 font-light tracking-wide'>{name}</h3>
+        <p className='mt-1 text-sm text-gray-500'>
+          ETB {price.toLocaleString()}
+        </p>
+      </div>
 
-        <button className='w-full bg-[var(--wood)] text-white py-2 rounded hover:bg-[var(--wood-dark)]'>
+      {/* Hover action */}
+      <div
+        className='
+          absolute inset-0
+          flex items-end justify-center
+          pb-8
+          opacity-0
+          group-hover:opacity-100
+          transition-opacity duration-500
+          pointer-events-none
+        '
+      >
+        <button
+          className='
+            pointer-events-auto
+            bg-black text-white text-sm
+            px-6 py-2 mt-2
+            tracking-wide
+            hover:bg-gray-900
+            transition
+          '
+        >
           Order Now
         </button>
       </div>
