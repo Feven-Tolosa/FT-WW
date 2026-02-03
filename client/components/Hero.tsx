@@ -40,13 +40,13 @@ export default function Hero() {
     <section className='relative h-[110vh]'>
       <button
         onClick={prevSlide}
-        className='absolute left-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full border border-white/40 text-white hover:border-wood-dark hover:text-wood-dark transition'
+        className='absolute left-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full border border-white/40 text-white hover:border-amber-950 hover:text-amber-950 transition'
       >
         ←
       </button>
       <button
         onClick={nextSlide}
-        className='absolute right-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full border border-white/40 text-white hover:border-white transition'
+        className='absolute right-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full border border-white/40 text-white hover:border-amber-950 hover:text-amber-950 transition'
       >
         →
       </button>
