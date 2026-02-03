@@ -43,7 +43,7 @@ export default function FurnitureCard({
         className='
           absolute inset-0
           flex items-end justify-center
-          pb-8
+          pb-7.5
           opacity-0
           group-hover:opacity-100
           transition-opacity duration-500
@@ -54,7 +54,7 @@ export default function FurnitureCard({
           className='
             pointer-events-auto
             bg-black text-white text-sm
-            px-6 py-2 mt-2
+            px-6 py-2 
             tracking-wide
             hover:bg-gray-900
             transition
