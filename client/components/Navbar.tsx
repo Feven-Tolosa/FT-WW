@@ -46,13 +46,13 @@ export default function Navbar() {
               {/* Mega menu */}
               <div
                 className='
-    absolute left-1/2 top-full -translate-x-1/2
-    w-screen max-w-[1200px]
+    absolute top-full -translate-x-1/2
+    w-screen left-11 mt-7
     bg-black text-white
     opacity-0 invisible
     group-hover:opacity-100 group-hover:visible
     transition-all duration-300
-    py-12 px-10
+    py-12 px-10 
   '
               >
                 <div className='grid grid-cols-4 gap-10'>
