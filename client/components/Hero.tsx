@@ -88,7 +88,7 @@ export default function Hero() {
               {slides[current].description}
             </p>
 
-            <button className='mt-8 flex items-center gap-3 text-white border-b border-white/60 hover:border-white transition-all opacity-0 translate-y-6 animate-heroText delay-200'>
+            <button className='mt-8 flex items-center gap-3 text-white border-b border-white/60 hover:border-amber-900 hover:text-amber-900 transition-all opacity-0 translate-y-6 animate-heroText delay-200'>
               Shop now →
             </button>
           </div>
