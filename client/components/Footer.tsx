@@ -78,7 +78,7 @@ export default function Footer() {
 
         {/* Bottom */}
         <div className='py-8 flex flex-col md:flex-row items-center justify-between text-sm text-gray-500'>
-          <p>© {new Date().getFullYear()} CozyCorner. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} TFWoods. All rights reserved.</p>
 
           <div className='flex gap-6 mt-4 md:mt-0'>
             <a href='#' className='hover:text-white transition'>

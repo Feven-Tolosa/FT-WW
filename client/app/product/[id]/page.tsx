@@ -25,7 +25,7 @@ export default function ProductPage({ params }: Props) {
         {/* Product Info */}
         <div className='grid grid-cols-1 md:grid-cols-2 gap-16'>
           {/* Image */}
-          <div className='relative aspect-[3/4]'>
+          <div className='relative aspect-[1/3]'>
             <Image
               src={product.image}
               alt={product.name}
