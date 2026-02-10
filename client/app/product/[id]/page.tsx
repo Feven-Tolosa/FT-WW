@@ -2,6 +2,7 @@ import { furniture } from '@/data/furniture'
 import Image from 'next/image'
 import Container from '@/components/Container'
 import FurnitureCard from '@/components/FurnitureCard'
+import Link from 'next/dist/client/link'
 
 interface Props {
   params: { id: string }
@@ -39,18 +40,18 @@ export default function ProductPage({ params }: Props) {
             <h1 className='text-3xl font-light tracking-wide'>
               {product.name}
             </h1>
-
             <p className='mt-4 text-xl text-gray-700'>
               ETB {product.price.toLocaleString()}
             </p>
-
             <p className='mt-6 text-gray-600 leading-relaxed'>
               {product.description}
             </p>
 
-            <button className='mt-10 bg-black text-white px-10 py-3 text-sm tracking-wide hover:bg-gray-900 transition'>
-              Order Now
-            </button>
+            <Link href={`/order?productId=${product.id}`}>
+              <button className='mt-10 bg-black text-white px-10 py-3 text-sm tracking-wide hover:bg-gray-900 transition'>
+                Order Now
+              </button>
+            </Link>
           </div>
         </div>
 
