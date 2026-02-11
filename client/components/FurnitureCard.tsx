@@ -1,3 +1,4 @@
+import Link from 'next/dist/client/link'
 import Image from 'next/image'
 
 interface FurnitureCardProps {
@@ -50,18 +51,11 @@ export default function FurnitureCard({
           pointer-events-none
         '
       >
-        <button
-          className='
-            pointer-events-auto
-            bg-black text-white text-sm
-            px-6 py-2 
-            tracking-wide
-            hover:bg-gray-900
-            transition
-          '
-        >
-          Order Now
-        </button>
+        <Link href={`/app/order?productId=${product.id}`}>
+          <button className='mt-10 bg-black text-white px-10 py-3 text-sm tracking-wide hover:bg-gray-900 transition'>
+            Order Now
+          </button>
+        </Link>
       </div>
     </div>
   )

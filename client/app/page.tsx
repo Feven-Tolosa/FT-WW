@@ -23,10 +23,6 @@ export default function Home() {
       <Hero />
       {/* Furniture Section */}
       <section id='furniture' className='max-w-7xl mx-auto px-6 py-20'>
-        <h2 className='text-2xl font-semibold mb-8 text-[var(--wood)]'>
-          Available Furniture
-        </h2>
-
         <div className='columns-1 sm:columns-2 md:columns-3 gap-8'>
           {furniture.map((item) => (
             <div key={item.id} className='mb-8 break-inside-avoid'>
