@@ -51,7 +51,7 @@ export default function Hero() {
         →
       </button>
 
-      {slides.map((slide, index) => (
+      {slides.map(() => (
         <Image
           key={slides[current].image}
           fill
@@ -70,7 +70,7 @@ export default function Hero() {
       <div className='relative z-10 flex items-center h-full'>
         <Container>
           <div key={current} className='max-w-3xl'>
-            {/* HEADLINE — fade only */}
+            {/* HEADLINE - fade only */}
             <h1
               className='
           text-white text-5xl md:text-6xl font-light tracking-wide leading-tight
@@ -82,7 +82,7 @@ export default function Hero() {
               {slides[current].subtitle}
             </h1>
 
-            {/* REST — slide + fade */}
+            {/* REST - slide + fade */}
 
             <p className='text-gray-200 mt-6 max-w-xl opacity-0 translate-y-6 animate-heroText delay-100'>
               {slides[current].description}
