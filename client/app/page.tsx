@@ -12,7 +12,7 @@ export default function Home() {
     <>
       <Hero />
       <section>
-        <div className='columns-1 md:columns-2 '>
+        <div className='columns-1 md:columns-2 gap-0'>
           {furniture.map((item) => (
             <div key={item.id}>
               <FurnitureCard name={item.name} />

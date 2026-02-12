@@ -15,7 +15,7 @@ export default function FurnitureCard({
 '
     >
       {/* Image wrapper */}
-      <div className='relative aspect-video overflow-hidden'>
+      <div className='relative aspect-video '>
         <Image
           src={image}
           alt={name}
