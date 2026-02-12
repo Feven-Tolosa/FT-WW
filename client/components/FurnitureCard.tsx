@@ -51,11 +51,11 @@ export default function FurnitureCard({
           pointer-events-none
         '
       >
-        <Link href={`/app/order?productId=${product.id}`}>
+        {/* <Link href={`/app/order?productId=${product.id}`}>
           <button className='mt-10 bg-black text-white px-10 py-3 text-sm tracking-wide hover:bg-gray-900 transition'>
             Order Now
           </button>
-        </Link>
+        </Link> */}
       </div>
     </div>
   )

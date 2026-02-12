@@ -37,7 +37,7 @@ export default function Hero() {
   }, [])
 
   return (
-    <section className='relative h-[110vh]'>
+    <section className='relative h-[110vh] max-h-screen overflow-hidden'>
       <button
         onClick={prevSlide}
         className='absolute left-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full border border-white/40 text-white hover:border-amber-950 hover:text-amber-950 transition'
