@@ -1,4 +1,4 @@
-import FurnitureCard from '../FurnitureCard'
+import FurnitureCard from './FurnitureCard'
 interface Props {
   items: {
     id: string
