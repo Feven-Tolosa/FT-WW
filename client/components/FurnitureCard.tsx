@@ -14,7 +14,7 @@ export default function FurnitureCard({
       className='group bg-white overflow-hidden group-hover:-translate-y-1 transition-transform duration-500 hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)] 
 '
     >
-      {/* Image wrapper */}
+  
       <div className='relative aspect-video '>
         <Image
           src={image}

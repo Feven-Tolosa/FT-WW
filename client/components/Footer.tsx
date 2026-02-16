@@ -5,9 +5,7 @@ export default function Footer() {
   return (
     <footer className='bg-black text-gray-400 pt-20'>
       <Container>
-        {/* Top Grid */}
         <div className='grid grid-cols-1 md:grid-cols-4 gap-12 pb-16 border-b border-white/10'>
-          {/* Brand */}
           <div>
             <h2 className='text-white text-xl font-light tracking-wide mb-4'>
               TF<span className='text-gray-400'>Woods</span>
@@ -18,7 +16,6 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* Shop */}
           <div>
             <h3 className='text-white mb-4 font-light'>Shop</h3>
             <ul className='space-y-2 text-sm'>
@@ -37,7 +34,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Company */}
           <div>
             <h3 className='text-white mb-4 font-light'>Company</h3>
             <ul className='space-y-2 text-sm'>
@@ -56,7 +52,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Support */}
           <div>
             <h3 className='text-white mb-4 font-light'>Support</h3>
             <ul className='space-y-2 text-sm'>
@@ -76,7 +71,6 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Bottom */}
         <div className='py-8 flex flex-col md:flex-row items-center justify-between text-sm text-gray-500'>
           <p>© {new Date().getFullYear()} TFWoods. All rights reserved.</p>
 
