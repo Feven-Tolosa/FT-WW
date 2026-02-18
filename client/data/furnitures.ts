@@ -1,11 +1,10 @@
-// data/furniture.ts
 export const furnitures = [
   {
     id: '1',
     name: 'Oak Wood Chair',
     price: 4500,
     category: 'chairs',
-    image: '/images/chair-1.jpg',
+    image: '/images/hero.png',
     description: 'Handcrafted oak chair with modern comfort.',
   },
   {
@@ -13,7 +12,7 @@ export const furnitures = [
     name: 'Walnut Dining Chair',
     price: 5200,
     category: 'chairs',
-    image: '/images/chair-2.jpg',
+    image: '/images/hero.png',
     description: 'Elegant walnut chair for dining spaces.',
   },
   {
@@ -21,7 +20,55 @@ export const furnitures = [
     name: 'Minimal Coffee Table',
     price: 9800,
     category: 'tables',
-    image: '/images/table-1.jpg',
+    image: '/images/hero.png',
+    description: 'Solid wood coffee table with clean lines.',
+  },
+  {
+    id: '4',
+    name: 'Oak Wood Chair',
+    price: 4500,
+    category: 'chairs',
+    image: '/images/hero.png',
+    description: 'Handcrafted oak chair with modern comfort.',
+  },
+  {
+    id: '5',
+    name: 'Walnut Dining Chair',
+    price: 5200,
+    category: 'chairs',
+    image: '/images/hero.png',
+    description: 'Elegant walnut chair for dining spaces.',
+  },
+  {
+    id: '6',
+    name: 'Minimal Coffee Table',
+    price: 9800,
+    category: 'tables',
+    image: '/images/hero.png',
+    description: 'Solid wood coffee table with clean lines.',
+  },
+  {
+    id: '7',
+    name: 'Oak Wood Chair',
+    price: 4500,
+    category: 'chairs',
+    image: '/images/hero.png',
+    description: 'Handcrafted oak chair with modern comfort.',
+  },
+  {
+    id: '8',
+    name: 'Walnut Dining Chair',
+    price: 5200,
+    category: 'chairs',
+    image: '/images/hero.png',
+    description: 'Elegant walnut chair for dining spaces.',
+  },
+  {
+    id: '9',
+    name: 'Minimal Coffee Table',
+    price: 9800,
+    category: 'tables',
+    image: '/images/hero.png',
     description: 'Solid wood coffee table with clean lines.',
   },
 ]
