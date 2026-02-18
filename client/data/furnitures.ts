@@ -1,5 +1,5 @@
 // data/furniture.ts
-export const furniture = [
+export const furnitures = [
   {
     id: '1',
     name: 'Oak Wood Chair',

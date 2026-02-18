@@ -1,6 +1,8 @@
 'use client'
 import FurnitureCard from '@/components/FurnitureCard'
 import Hero from '@/components/Hero'
+import HorizontalProducts from '@/components/HorizontalProducts'
+import { furnitures } from '@/data/furnitures'
 
 const furniture = [
   { id: 1, name: 'Wooden Chair', price: 3500 },
@@ -19,6 +21,8 @@ export default function Home() {
             </div>
           ))}
         </div>
+        <h2 className='text-2xl font-light mb-8'>Featured Collection</h2>
+        <HorizontalProducts items={furnitures} />
       </section>
     </>
   )

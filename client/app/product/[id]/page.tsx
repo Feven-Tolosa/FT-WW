@@ -1,4 +1,4 @@
-import { furniture } from '@/data/furniture'
+import { furniture } from '@/data/furnitures'
 import Image from 'next/image'
 import Container from '@/components/Container'
 import FurnitureCard from '@/components/FurnitureCard'
