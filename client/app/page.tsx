@@ -21,7 +21,7 @@ export default function Home() {
             </div>
           ))}
         </div>
-        <h2 className='text-2xl  text-[var(--wood)] mb-8'>
+        <h2 className='text-2xl  text-[var(--wood)] pb-8 mb-8'>
           Featured Collection
         </h2>
         <HorizontalProducts items={furnitures} />
