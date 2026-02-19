@@ -2,6 +2,7 @@
 import FurnitureCard from '@/components/FurnitureCard'
 import Hero from '@/components/Hero'
 import HorizontalProducts from '@/components/HorizontalProducts'
+import WhyChooseUs from '@/components/WhyChooseUs'
 import { furnitures } from '@/data/furnitures'
 
 const furniture = [
@@ -21,10 +22,11 @@ export default function Home() {
             </div>
           ))}
         </div>
-        <h2 className='text-2xl  text-[var(--wood)] pb-8 mb-8'>
+        <h2 className='text-2xl pt-4 text-[var(--wood)] pb-8 mb-8'>
           Featured Collection
         </h2>
         <HorizontalProducts items={furnitures} />
+        <WhyChooseUs />
       </section>
     </>
   )

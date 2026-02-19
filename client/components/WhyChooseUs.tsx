@@ -4,7 +4,7 @@ export default function WhyChooseUs() {
       <div className='max-w-6xl mx-auto px-6'>
         {/* Section Title */}
         <div className='text-center mb-20'>
-          <h2 className='text-3xl md:text-4xl font-light tracking-wide'>
+          <h2 className='text-3xl text-amber-950 md:text-4xl font-light tracking-wide'>
             Crafted for Comfort. Designed for Life.
           </h2>
           <p className='mt-4 text-gray-600 max-w-2xl mx-auto'>
@@ -16,7 +16,9 @@ export default function WhyChooseUs() {
         {/* Features Grid */}
         <div className='grid md:grid-cols-3 gap-16 text-center'>
           <div>
-            <h3 className='text-lg font-medium mb-3'>Premium Materials</h3>
+            <h3 className='text-lg text-amber-950 font-medium mb-3'>
+              Premium Materials
+            </h3>
             <p className='text-gray-600 leading-relaxed'>
               Carefully selected solid wood and high-quality fabrics ensure
               durability and elegance.
@@ -24,7 +26,9 @@ export default function WhyChooseUs() {
           </div>
 
           <div>
-            <h3 className='text-lg font-medium mb-3'>Handmade Craftsmanship</h3>
+            <h3 className='text-lg text-amber-950 font-medium mb-3'>
+              Handmade Craftsmanship
+            </h3>
             <p className='text-gray-600 leading-relaxed'>
               Each piece is thoughtfully crafted with precision and attention to
               every detail.
@@ -32,7 +36,9 @@ export default function WhyChooseUs() {
           </div>
 
           <div>
-            <h3 className='text-lg font-medium mb-3'>Reliable Delivery</h3>
+            <h3 className='text-lg text-amber-950 font-medium mb-3'>
+              Reliable Delivery
+            </h3>
             <p className='text-gray-600 leading-relaxed'>
               Safe and timely delivery across the country, handled with care.
             </p>
