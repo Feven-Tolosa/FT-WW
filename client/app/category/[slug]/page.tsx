@@ -5,15 +5,18 @@ import { furnitures } from '@/data/furnitures'
 
 interface Props {
   params: {
-    slug: string
+    slug?: string
   }
 }
 
 export default function CategoryPage({ params }: Props) {
-  const { slug } = params
-
+  const slug = params?.slug
+  if (!slug) {
+    return <div className='pt-40 text-center'>Invalid category</div>
+  }
   const products = furnitures.filter(
-    (item) => item.category.toLowerCase() === slug.toLowerCase(),
+    (item) =>
+      item.category && item.category.toLowerCase() === slug.toLowerCase(),
   )
 
   if (products.length === 0) {
