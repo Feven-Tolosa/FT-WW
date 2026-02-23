@@ -16,7 +16,7 @@ export default function ShopByCategory() {
         <div className='grid grid-cols-1 md:grid-cols-4 gap-6 auto-rows-[300px]'>
           {/* Large Top */}
           <Link
-            href='/category/chairs'
+            href='/category/sofas'
             className='group relative md:col-span-4 overflow-hidden'
           >
             <Image
@@ -25,10 +25,30 @@ export default function ShopByCategory() {
               fill
               className='object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-105'
             />
-            <div className='absolute inset-0 bg-black/30 flex items-center justify-center'>
-              <h3 className='text-white text-3xl font-light tracking-wide'>
+            <div className='absolute inset-0 bg-black/30 flex flex-col items-center justify-center overflow-hidden'>
+              {/* Main Title */}
+              <h3
+                className='
+    text-white text-3xl font-light tracking-wide
+    transition-all duration-500
+    group-hover:-translate-y-3
+  '
+              >
                 Sofas
               </h3>
+
+              {/* Subheading */}
+              <span
+                className='
+    text-white/80 text-sm tracking-widest mt-2
+    opacity-0 translate-y-4
+    transition-all duration-500
+    group-hover:opacity-100
+    group-hover:translate-y-0
+  '
+              >
+                Modern Comfort Collection
+              </span>
             </div>
           </Link>
 
@@ -43,14 +63,31 @@ export default function ShopByCategory() {
               fill
               className='object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-105'
             />
-            <div className='absolute inset-0 bg-black/30 flex items-center justify-center'>
-              <h3 className='text-white text-2xl font-light'>Tables</h3>
+            <div className='absolute inset-0 bg-black/30 flex flex-col items-center justify-center overflow-hidden'>
+              <h3
+                className='
+    text-white text-3xl font-light tracking-wide
+    transition-all duration-500
+    group-hover:-translate-y-3'
+              >
+                Tables
+              </h3>
+              <span
+                className='
+    text-white/80 text-sm tracking-widest mt-2
+    opacity-0 translate-y-4
+    transition-all duration-500
+    group-hover:opacity-100
+    group-hover:translate-y-0'
+              >
+                Contemporary Dining
+              </span>
             </div>
           </Link>
 
           {/* Tall Right */}
           <Link
-            href='/category/sofas'
+            href='/category/Dining'
             className='group relative md:col-span-2 md:row-span-2 overflow-hidden'
           >
             <Image
@@ -59,40 +96,88 @@ export default function ShopByCategory() {
               fill
               className='object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-105'
             />
-            <div className='absolute inset-0 bg-black/30 flex items-center justify-center'>
-              <h3 className='text-white text-3xl font-light'>Modern Dining</h3>
+            <div className='absolute inset-0 bg-black/30 flex flex-col items-center justify-center overflow-hidden'>
+              <h3
+                className='
+    text-white text-3xl font-light tracking-wide
+    transition-all duration-500
+    group-hover:-translate-y-3'
+              >
+                Dining
+              </h3>
+              <span
+                className=' text-white/80 text-sm tracking-widest mt-2
+    opacity-0 translate-y-4
+    transition-all duration-500
+    group-hover:opacity-100
+    group-hover:translate-y-0'
+              >
+                Elegant Gatherings
+              </span>
             </div>
           </Link>
 
           {/* Tall Left */}
           <Link
-            href='/category/sofas'
+            href='/category/Kitchen'
             className='group relative md:col-span-2 md:row-span-2 overflow-hidden'
           >
             <Image
               src='/images/3.png'
-              alt='Sofas'
+              alt='Kitchen'
               fill
               className='object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-105'
             />
-            <div className='absolute inset-0 bg-black/30 flex items-center justify-center'>
-              <h3 className='text-white text-3xl font-light'>Sofas</h3>
+            <div className='absolute inset-0 bg-black/30 flex flex-col items-center justify-center overflow-hidden'>
+              <h3
+                className='
+    text-white text-3xl font-light tracking-wide
+    transition-all duration-500
+    group-hover:-translate-y-3'
+              >
+                Kitchen
+              </h3>
+              <span
+                className=' text-white/80 text-sm tracking-widest mt-2
+    opacity-0 translate-y-4
+    transition-all duration-500
+    group-hover:opacity-100
+    group-hover:translate-y-0'
+              >
+                Functional Beauty
+              </span>
             </div>
           </Link>
 
           {/* Small Right */}
           <Link
-            href='/category/tables'
+            href='/category/chairs'
             className='group relative md:col-span-2 overflow-hidden'
           >
             <Image
               src='/images/3.png'
-              alt='Tables'
+              alt='Chairs'
               fill
               className='object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-105'
             />
-            <div className='absolute inset-0 bg-black/30 flex items-center justify-center'>
-              <h3 className='text-white text-2xl font-light'>Tables</h3>
+            <div className='absolute inset-0 bg-black/30 flex flex-col items-center justify-center overflow-hidden'>
+              <h3
+                className='
+    text-white text-3xl font-light tracking-wide
+    transition-all duration-500
+    group-hover:-translate-y-3'
+              >
+                Chairs
+              </h3>
+              <span
+                className=' text-white/80 text-sm tracking-widest mt-2
+    opacity-0 translate-y-4
+    transition-all duration-500
+    group-hover:opacity-100
+    group-hover:translate-y-0'
+              >
+                Crafted Seating
+              </span>
             </div>
           </Link>
 
@@ -107,8 +192,24 @@ export default function ShopByCategory() {
               fill
               className='object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-105'
             />
-            <div className='absolute inset-0 bg-black/30 flex items-center justify-center'>
-              <h3 className='text-white text-3xl font-light'>Beds</h3>
+            <div className='absolute inset-0 bg-black/30 flex flex-col items-center justify-center overflow-hidden'>
+              <h3
+                className='
+    text-white text-3xl font-light tracking-wide
+    transition-all duration-500
+    group-hover:-translate-y-3'
+              >
+                Beds
+              </h3>
+              <span
+                className=' text-white/80 text-sm tracking-widest mt-2
+    opacity-0 translate-y-4
+    transition-all duration-500
+    group-hover:opacity-100
+    group-hover:translate-y-0'
+              >
+                Rest in Luxury
+              </span>
             </div>
           </Link>
         </div>
