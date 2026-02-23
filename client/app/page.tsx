@@ -2,6 +2,7 @@
 import FurnitureCard from '@/components/FurnitureCard'
 import Hero from '@/components/Hero'
 import HorizontalProducts from '@/components/HorizontalProducts'
+import ShopByCategory from '@/components/ShopByCategory'
 import WhyChooseUs from '@/components/WhyChooseUs'
 import { furnitures } from '@/data/furnitures'
 
@@ -26,6 +27,8 @@ export default function Home() {
           Featured Collection
         </h2>
         <HorizontalProducts items={furnitures} />
+
+        <ShopByCategory />
         <WhyChooseUs />
       </section>
     </>
