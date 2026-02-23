@@ -1,11 +1,12 @@
 export default function WhyChooseUs() {
   return (
-    <section className='py-28 bg-[#f7f5f2]'>
+    <section className='pb-20 bg-[#f7f5f2]'>
       <div className='max-w-6xl mx-auto px-6'>
         {/* Section Title */}
         <div className='text-center mb-20'>
-          <h2 className='text-3xl text-amber-950 md:text-4xl font-light tracking-wide'>
-            Crafted for Comfort. Designed for Life.
+          <h2 className='text-3xl text-amber-900 md:text-4xl font-light tracking-wide'>
+            Crafted for Comfort{' '}
+            <span className='text-zinc-700'> Designed for Life</span>
           </h2>
           <p className='mt-4 text-gray-600 max-w-2xl mx-auto'>
             We believe furniture should feel warm, timeless, and built to last

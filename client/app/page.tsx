@@ -15,22 +15,25 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <section>
-        <div className='columns-1 md:columns-2 gap-0'>
-          {furniture.map((item) => (
-            <div key={item.id}>
-              <FurnitureCard name={item.name} />
-            </div>
-          ))}
-        </div>
-        <h2 className='text-2xl pt-4 text-[var(--wood)] pb-8 mb-8'>
-          Featured Collection
-        </h2>
-        <HorizontalProducts items={furnitures} />
 
-        <ShopByCategory />
-        <WhyChooseUs />
-      </section>
+      <div className='columns-1 md:columns-2 gap-0 pb-5'>
+        {furniture.map((item) => (
+          <div key={item.id}>
+            <FurnitureCard name={item.name} />
+          </div>
+        ))}
+      </div>
+      <HorizontalProducts items={furnitures} />
+      <ShopByCategory />
+      <WhyChooseUs />
+      <div className='columns-1 md:columns-2 gap-0 pb-5'>
+        {furniture.map((item) => (
+          <div key={item.id}>
+            <FurnitureCard name={item.name} />
+          </div>
+        ))}
+      </div>
+      <HorizontalProducts items={furnitures} />
     </>
   )
 }

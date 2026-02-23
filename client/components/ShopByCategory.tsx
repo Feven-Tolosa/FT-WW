@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 export default function ShopByCategory() {
   return (
-    <section className='py-32'>
+    <section className='py-10 bg-gray-50'>
       <div className='max-w-6xl mx-auto px-6'>
         {/* Title */}
         <div className='mb-20 text-center'>
