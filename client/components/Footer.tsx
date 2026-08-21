@@ -1,90 +1,129 @@
-import Container from './Container'
 import Link from 'next/link'
+import { ArrowRight, Facebook, Instagram, Youtube } from 'lucide-react'
+import Container from './Container'
+
+const columns = [
+  {
+    title: 'Shop',
+    links: [
+      { label: 'Chairs', href: '/category/chairs' },
+      { label: 'Tables', href: '/category/tables' },
+      { label: 'Beds', href: '/category/beds' },
+      { label: 'Dining', href: '/category/dining' },
+    ],
+  },
+  {
+    title: 'Company',
+    links: [
+      { label: 'About Us', href: '#' },
+      { label: 'Sustainability', href: '#' },
+      { label: 'Careers', href: '#' },
+      { label: 'Contact', href: '#' },
+    ],
+  },
+  {
+    title: 'Support',
+    links: [
+      { label: 'Shipping & Returns', href: '#' },
+      { label: 'FAQs', href: '#' },
+      { label: 'Warranty', href: '#' },
+      { label: 'Privacy Policy', href: '#' },
+    ],
+  },
+]
+
+const socials = [
+  { icon: Instagram, label: 'Instagram' },
+  { icon: Facebook, label: 'Facebook' },
+  { icon: Youtube, label: 'YouTube' },
+]
 
 export default function Footer() {
   return (
-    <footer className='bg-black text-gray-400 pt-20'>
+    <footer className='bg-stone-950 text-white/60'>
+      {/* Newsletter */}
+      <div className='border-b border-white/10'>
+        <Container>
+          <div className='flex flex-col items-start justify-between gap-8 py-14 md:flex-row md:items-center'>
+            <div>
+              <h2 className='text-2xl font-light tracking-tight text-white md:text-3xl'>
+                Join the <span className='italic text-wood-300'>TF Wood Works</span> family
+              </h2>
+              <p className='mt-2 text-sm'>
+                Be first to hear about new collections, offers and stories from the workshop.
+              </p>
+            </div>
+
+            <form className='flex w-full max-w-md'>
+              <input
+                type='email'
+                required
+                placeholder='Your email address'
+                className='w-full border-b border-white/25 bg-transparent py-3 text-sm text-white outline-none transition-colors placeholder:text-white/30 focus:border-wood-300'
+              />
+              <button
+                type='submit'
+                aria-label='Subscribe'
+                className='group ml-4 flex h-11 w-11 shrink-0 items-center justify-center bg-wood-700 text-white transition-colors hover:bg-wood-500'
+              >
+                <ArrowRight size={16} className='transition-transform duration-300 group-hover:translate-x-0.5' />
+              </button>
+            </form>
+          </div>
+        </Container>
+      </div>
+
+      {/* Columns */}
       <Container>
-        <div className='grid grid-cols-1 md:grid-cols-4 gap-12 pb-16 border-b border-white/10'>
+        <div className='grid grid-cols-1 gap-12 border-b border-white/10 py-16 md:grid-cols-4'>
           <div>
-            <h2 className='text-white text-xl font-light tracking-wide mb-4'>
-              TF<span className='text-gray-400'>Woods</span>
+            <h2 className='mb-4 text-xl font-light tracking-wide text-white'>
+              TF<span className='text-wood-300'>Woods</span>
             </h2>
             <p className='text-sm leading-relaxed'>
               Thoughtfully crafted furniture for modern living. Designed to
               bring warmth, comfort, and timeless style into your space.
             </p>
+
+            <div className='mt-6 flex gap-3'>
+              {socials.map((social) => (
+                <a
+                  key={social.label}
+                  href='#'
+                  aria-label={social.label}
+                  className='flex h-10 w-10 items-center justify-center rounded-full border border-white/15 text-white/70 transition-all duration-300 hover:border-wood-400 hover:bg-wood-700 hover:text-white'
+                >
+                  <social.icon size={16} />
+                </a>
+              ))}
+            </div>
           </div>
 
-          <div>
-            <h3 className='text-white mb-4 font-light'>Shop</h3>
-            <ul className='space-y-2 text-sm'>
-              <li>
-                <Link href='#'>Chairs</Link>
-              </li>
-              <li>
-                <Link href='#'>Tables</Link>
-              </li>
-              <li>
-                <Link href='#'>Beds</Link>
-              </li>
-              <li>
-                <Link href='#'>Storage</Link>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h3 className='text-white mb-4 font-light'>Company</h3>
-            <ul className='space-y-2 text-sm'>
-              <li>
-                <Link href='#'>About Us</Link>
-              </li>
-              <li>
-                <Link href='#'>Sustainability</Link>
-              </li>
-              <li>
-                <Link href='#'>Careers</Link>
-              </li>
-              <li>
-                <Link href='#'>Contact</Link>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h3 className='text-white mb-4 font-light'>Support</h3>
-            <ul className='space-y-2 text-sm'>
-              <li>
-                <Link href='#'>Shipping & Returns</Link>
-              </li>
-              <li>
-                <Link href='#'>FAQs</Link>
-              </li>
-              <li>
-                <Link href='#'>Warranty</Link>
-              </li>
-              <li>
-                <Link href='#'>Privacy Policy</Link>
-              </li>
-            </ul>
-          </div>
+          {columns.map((col) => (
+            <div key={col.title}>
+              <h3 className='mb-5 text-sm font-medium uppercase tracking-widest text-white'>
+                {col.title}
+              </h3>
+              <ul className='space-y-3 text-sm'>
+                {col.links.map((link) => (
+                  <li key={link.label}>
+                    <Link
+                      href={link.href}
+                      className='inline-block transition-all duration-300 hover:translate-x-1 hover:text-wood-300'
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
 
-        <div className='py-8 flex flex-col md:flex-row items-center justify-between text-sm text-gray-500'>
+        {/* Bottom bar */}
+        <div className='flex flex-col items-center justify-between gap-4 py-8 text-xs tracking-wide md:flex-row'>
           <p>© {new Date().getFullYear()} TFWoods. All rights reserved.</p>
-
-          <div className='flex gap-6 mt-4 md:mt-0'>
-            <a href='#' className='hover:text-white transition'>
-              Instagram
-            </a>
-            <a href='#' className='hover:text-white transition'>
-              Pinterest
-            </a>
-            <a href='#' className='hover:text-white transition'>
-              Facebook
-            </a>
-          </div>
+          <p>Crafted with care in Ethiopia.</p>
         </div>
       </Container>
     </footer>

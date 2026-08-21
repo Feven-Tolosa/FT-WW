@@ -56,7 +56,7 @@ export default function Navbar() {
           <Link href='/' className='flex items-center gap-3'>
             <Image src='/images/logos.png' alt='TF Wood Works' width={40} height={40} className='h-10 w-auto' />
             <span className='text-sm font-light uppercase tracking-[0.25em] text-white'>
-              TF <span className='text-wood-300'>Wood Works</span>
+             <span className='text-wood-300'>Wood Works</span>
             </span>
           </Link>
 
