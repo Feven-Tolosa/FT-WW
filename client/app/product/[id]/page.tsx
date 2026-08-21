@@ -1,22 +1,22 @@
-import { furniture } from '@/data/furnitures'
+import { furnitures } from '@/data/furnitures'
 import Image from 'next/image'
 import Container from '@/components/Container'
 import FurnitureCard from '@/components/FurnitureCard'
-import Link from 'next/dist/client/link'
+import Link from 'next/link'
 
 interface Props {
   params: { id: string }
 }
 
 export default function ProductPage({ params }: Props) {
-  const product = furniture.find((item) => item.id === params.id)
+  const product = furnitures.find((item) => item.id === params.id)
 
   if (!product) {
     return <div className='pt-40 text-center'>Product not found</div>
   }
 
   // 🔑 Related furniture (same category, different product)
-  const relatedFurniture = furniture.filter(
+  const relatedFurniture = furnitures.filter(
     (item) => item.category === product.category && item.id !== product.id,
   )
 
@@ -26,7 +26,7 @@ export default function ProductPage({ params }: Props) {
         {/* Product Info */}
         <div className='grid grid-cols-1 md:grid-cols-2 gap-16'>
           {/* Image */}
-          <div className='relative aspect-[1/3]'>
+          <div className='relative aspect-[4/5]'>
             <Image
               src={product.image}
               alt={product.name}
@@ -47,10 +47,11 @@ export default function ProductPage({ params }: Props) {
               {product.description}
             </p>
 
-            <Link href={`/app/order?productId=${product.id}`}>
-              <button className='mt-10 bg-black text-white px-10 py-3 text-sm tracking-wide hover:bg-gray-900 transition'>
-                Order Now
-              </button>
+            <Link
+              href={`/order?productId=${product.id}`}
+              className='mt-10 inline-block bg-stone-900 px-10 py-3 text-sm tracking-wide text-white transition-colors hover:bg-wood-800'
+            >
+              Order Now
             </Link>
           </div>
         </div>

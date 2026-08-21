@@ -1,22 +1,23 @@
 'use client'
 
 import { useSearchParams } from 'next/navigation'
-import { furniture } from '@/data/furnitures'
+import { Suspense } from 'react'
+import { furnitures } from '@/data/furnitures'
 import Image from 'next/image'
 import Container from '@/components/Container'
 import FurnitureCard from '@/components/FurnitureCard'
 
-export default function OrderPage() {
+function OrderPageContent() {
   const searchParams = useSearchParams()
   const productId = searchParams.get('productId')
 
-  const product = furniture.find((item) => item.id === productId)
+  const product = furnitures.find((item) => item.id === productId)
 
   if (!product) {
     return <div className='pt-40 text-center'>Product not found</div>
   }
 
-  const relatedFurniture = furniture.filter(
+  const relatedFurniture = furnitures.filter(
     (item) => item.category === product.category && item.id !== product.id,
   )
 
@@ -93,5 +94,13 @@ export default function OrderPage() {
         )}
       </Container>
     </section>
+  )
+}
+
+export default function OrderPage() {
+  return (
+    <Suspense fallback={<div className='pt-40 text-center'>Loading…</div>}>
+      <OrderPageContent />
+    </Suspense>
   )
 }
