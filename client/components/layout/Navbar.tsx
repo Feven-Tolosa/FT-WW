@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { Heart, Menu, Search, ShoppingBag, X } from 'lucide-react'
-import Container from './Container'
+import Container from '../Container'
 
 const categories = [
   {
@@ -54,9 +54,15 @@ export default function Navbar() {
         <nav className='flex h-20 items-center justify-between'>
           {/* Logo */}
           <Link href='/' className='flex items-center gap-3'>
-            <Image src='/images/logos.png' alt='TF Wood Works' width={40} height={40} className='h-10 w-auto' />
+            <Image
+              src='/images/logos.png'
+              alt='TF Wood Works'
+              width={40}
+              height={40}
+              className='h-10 w-auto'
+            />
             <span className='text-sm font-light uppercase tracking-[0.25em] text-white'>
-             <span className='text-wood-300'>Wood Works</span>
+              <span className='text-wood-300'>Wood Works</span>
             </span>
           </Link>
 
@@ -140,10 +146,17 @@ export default function Navbar() {
             >
               <Search size={18} />
             </button>
-            <button aria-label='Wishlist' className='hidden transition-opacity hover:opacity-70 sm:block'>
+            <button
+              aria-label='Wishlist'
+              className='hidden transition-opacity hover:opacity-70 sm:block'
+            >
               <Heart size={18} />
             </button>
-            <Link href='/order' aria-label='Cart' className='transition-opacity hover:opacity-70'>
+            <Link
+              href='/order'
+              aria-label='Cart'
+              className='transition-opacity hover:opacity-70'
+            >
               <ShoppingBag size={18} />
             </Link>
             <button
@@ -183,7 +196,9 @@ export default function Navbar() {
               href={link.href}
               onClick={() => setMenuOpen(false)}
               className={`border-b border-white/10 py-5 text-3xl font-light tracking-wide text-white transition-all duration-500 hover:text-wood-300 ${
-                menuOpen ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'
+                menuOpen
+                  ? 'translate-y-0 opacity-100'
+                  : 'translate-y-6 opacity-0'
               }`}
               style={{ transitionDelay: `${i * 80}ms` }}
             >
@@ -196,7 +211,9 @@ export default function Navbar() {
               href={`/category/${cat.name.toLowerCase()}`}
               onClick={() => setMenuOpen(false)}
               className={`py-4 text-lg font-light tracking-wide text-white/50 transition-all duration-500 hover:text-wood-300 ${
-                menuOpen ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'
+                menuOpen
+                  ? 'translate-y-0 opacity-100'
+                  : 'translate-y-6 opacity-0'
               }`}
               style={{ transitionDelay: `${(navLinks.length + i) * 80}ms` }}
             >

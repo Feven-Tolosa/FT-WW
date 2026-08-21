@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { ArrowRight, Facebook, Instagram, Youtube } from 'lucide-react'
-import Container from './Container'
+import Container from '../Container'
 
 const columns = [
   {
@@ -47,10 +47,13 @@ export default function Footer() {
           <div className='flex flex-col items-start justify-between gap-8 py-14 md:flex-row md:items-center'>
             <div>
               <h2 className='text-2xl font-light tracking-tight text-white md:text-3xl'>
-                Join the <span className='italic text-wood-300'>TF Wood Works</span> family
+                Join the{' '}
+                <span className='italic text-wood-300'>TF Wood Works</span>{' '}
+                family
               </h2>
               <p className='mt-2 text-sm'>
-                Be first to hear about new collections, offers and stories from the workshop.
+                Be first to hear about new collections, offers and stories from
+                the workshop.
               </p>
             </div>
 
@@ -66,7 +69,10 @@ export default function Footer() {
                 aria-label='Subscribe'
                 className='group ml-4 flex h-11 w-11 shrink-0 items-center justify-center bg-wood-700 text-white transition-colors hover:bg-wood-500'
               >
-                <ArrowRight size={16} className='transition-transform duration-300 group-hover:translate-x-0.5' />
+                <ArrowRight
+                  size={16}
+                  className='transition-transform duration-300 group-hover:translate-x-0.5'
+                />
               </button>
             </form>
           </div>
