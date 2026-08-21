@@ -4,8 +4,8 @@ Roles
 🔐 Admin (Restricted)
 
 Admins:
-Father: Tolosa
-Partner: Fetsum
+Father: dawit
+Partner: beriso
 
 Only admins can:
 -Log in

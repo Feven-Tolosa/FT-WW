@@ -1,6 +1,10 @@
+'use client'
+
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Heart, ShoppingBag } from 'lucide-react'
+import { isInWishlist, toggleWishlist, WISHLIST_EVENT } from '@/lib/wishlist'
 
 interface FurnitureCardProps {
   name: string
@@ -15,6 +19,22 @@ export default function FurnitureCard({
   price = 0,
   href,
 }: FurnitureCardProps) {
+  const id = href?.split('/').pop() ?? ''
+  const [liked, setLiked] = useState(false)
+
+  useEffect(() => {
+    const sync = () => setLiked(isInWishlist(id))
+    sync()
+    window.addEventListener(WISHLIST_EVENT, sync)
+    return () => window.removeEventListener(WISHLIST_EVENT, sync)
+  }, [id])
+
+  const handleLike = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setLiked(toggleWishlist(id))
+  }
+
   return (
     <div className='group'>
       <Link
@@ -36,12 +56,24 @@ export default function FurnitureCard({
             Add to Cart
           </span>
           <button
-            aria-label='Add to wishlist'
-            className='flex h-10 w-10 items-center justify-center rounded-full bg-white text-stone-900 transition-colors hover:bg-red-50 hover:text-red-500'
+            aria-label={liked ? 'Remove from wishlist' : 'Add to wishlist'}
+            onClick={handleLike}
+            className={`flex h-10 w-10 items-center justify-center rounded-full transition-colors ${
+              liked
+                ? 'bg-red-500 text-white'
+                : 'bg-white text-stone-900 hover:bg-red-50 hover:text-red-500'
+            }`}
           >
-            <Heart size={15} />
+            <Heart size={15} fill={liked ? 'currentColor' : 'none'} />
           </button>
         </div>
+
+        {/* Persistent wishlist indicator (visible without hover) */}
+        {liked && (
+          <span className='absolute top-3 right-3 flex h-8 w-8 items-center justify-center rounded-full bg-red-500 text-white shadow'>
+            <Heart size={14} fill='currentColor' />
+          </span>
+        )}
       </Link>
 
       <div className='flex items-start justify-between gap-4 pt-4'>

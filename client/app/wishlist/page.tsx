@@ -1,0 +1,90 @@
+'use client'
+
+import { useEffect, useState } from 'react'
+import Link from 'next/link'
+import { Heart } from 'lucide-react'
+import CollectionsView from '@/components/CollectionsView'
+import { api } from '@/lib/api'
+import { furnitures } from '@/data/furnitures'
+import { getWishlist, WISHLIST_EVENT } from '@/lib/wishlist'
+
+type ApiFurniture = {
+  id: number
+  name: string
+  description: string
+  price: string | number
+  imageUrl?: string | null
+  category?: { name: string } | null
+}
+
+type WishlistItem = (typeof furnitures)[number]
+
+export default function WishlistPage() {
+  const [items, setItems] = useState<WishlistItem[] | null>(null)
+
+  useEffect(() => {
+    const load = () => {
+      const ids = getWishlist()
+      if (ids.length === 0) {
+        setItems([])
+        return
+      }
+
+      // Try live data from the API, fall back to bundled samples
+      api<ApiFurniture[]>('/furniture')
+        .then((all) => {
+          setItems(
+            all
+              .filter((item) => ids.includes(String(item.id)))
+              .map((item) => ({
+                id: String(item.id),
+                name: item.name,
+                price: Number(item.price),
+                category: item.category?.name?.toLowerCase() ?? 'other',
+                image: item.imageUrl || '/images/1.png',
+                description: item.description,
+              }))
+          )
+        })
+        .catch(() => {
+          setItems(
+            furnitures.filter((item) => ids.includes(item.id))
+          )
+        })
+    }
+
+    load()
+    window.addEventListener(WISHLIST_EVENT, load)
+    return () => window.removeEventListener(WISHLIST_EVENT, load)
+  }, [])
+
+  return (
+    <section className='pt-32 pb-24'>
+      <div className='mx-auto max-w-[1400px] px-6 lg:px-[max(1.5rem,calc((100vw-1400px)/2+1.5rem))]'>
+        <h1 className='text-3xl font-light tracking-wide'>Your Wishlist</h1>
+        <p className='mt-2 text-sm text-gray-500'>
+          Items you have saved while browsing.
+        </p>
+      </div>
+
+      <div className='mt-12'>
+        {items === null ? (
+          <p className='py-24 text-center text-gray-500'>Loading…</p>
+        ) : items.length === 0 ? (
+          <div className='flex flex-col items-center gap-4 py-24 text-center'>
+            <Heart size={40} className='text-stone-300' />
+            <p className='text-gray-500'>Your wishlist is empty.</p>
+            <Link
+              href='/collections'
+              className='bg-stone-900 px-8 py-3 text-sm tracking-wide text-white transition-colors hover:bg-stone-700'
+            >
+              Browse Collections
+            </Link>
+          </div>
+        ) : (
+          <CollectionsView items={items} />
+        )}
+      </div>
+    </section>
+  )
+}

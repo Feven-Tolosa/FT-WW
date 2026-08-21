@@ -1,0 +1,38 @@
+const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:5000/api'
+
+export function getToken(): string | null {
+  if (typeof window === 'undefined') return null
+  return localStorage.getItem('admin_token')
+}
+
+export function setToken(token: string) {
+  localStorage.setItem('admin_token', token)
+}
+
+export function clearToken() {
+  localStorage.removeItem('admin_token')
+}
+
+export async function api<T = unknown>(
+  path: string,
+  options: RequestInit = {}
+): Promise<T> {
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+    ...(options.headers as Record<string, string>),
+  }
+
+  const token = getToken()
+  if (token) headers.Authorization = `Bearer ${token}`
+
+  const res = await fetch(`${API_BASE}${path}`, { ...options, headers })
+  const data = await res.json().catch(() => null)
+
+  if (!res.ok) {
+    const message =
+      (data && (data.message as string)) || `Request failed (${res.status})`
+    throw new Error(message)
+  }
+
+  return data as T
+}
