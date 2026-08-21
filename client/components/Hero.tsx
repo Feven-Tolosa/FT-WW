@@ -95,7 +95,7 @@ export default function Hero() {
 
             <div className='mt-10 flex flex-wrap items-center gap-4 opacity-0 translate-y-6 animate-heroText delay-300'>
               <Link
-                href='/category/chairs'
+                href='/collections'
                 className='bg-white px-8 py-4 text-sm font-medium uppercase tracking-widest text-stone-900 transition-colors duration-300 hover:bg-wood-400 hover:text-white'
               >
                 Shop Now

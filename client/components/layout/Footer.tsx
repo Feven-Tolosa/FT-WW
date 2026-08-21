@@ -6,10 +6,10 @@ const columns = [
   {
     title: 'Shop',
     links: [
+      { label: 'All Collections', href: '/collections' },
       { label: 'Chairs', href: '/category/chairs' },
       { label: 'Tables', href: '/category/tables' },
       { label: 'Beds', href: '/category/beds' },
-      { label: 'Dining', href: '/category/dining' },
     ],
   },
   {

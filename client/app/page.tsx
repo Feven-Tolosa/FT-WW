@@ -30,7 +30,7 @@ export default function Home() {
             </div>
 
             <Link
-              href='/category/chairs'
+              href='/collections'
               className='group inline-flex w-fit items-center gap-2 border-b border-stone-300 pb-1 text-sm uppercase tracking-widest text-stone-600 transition-colors hover:border-wood-600 hover:text-wood-700'
             >
               View All

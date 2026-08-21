@@ -26,7 +26,7 @@ const categories = [
 
 const navLinks = [
   { label: 'Home', href: '/' },
-  { label: 'Collections', href: '/category/chairs' },
+  { label: 'Collections', href: '/collections' },
   { label: 'Order', href: '/order' },
 ]
 
