@@ -18,10 +18,32 @@ app.get('/', (req, res) => {
   })
 })
 
-/* ---------- Routes (will be added later) ---------- */
-// app.use("/api/auth", authRoutes);
-// app.use("/api/furniture", furnitureRoutes);
-// app.use("/api/orders", orderRoutes);
+// GET /api — endpoint index
+app.get('/api', (_req, res) => {
+  res.json({
+    message: 'TF Wood Works API',
+    endpoints: {
+      auth: 'POST /api/auth/login',
+      categories: 'GET /api/categories',
+      furniture: 'GET|POST /api/furniture, PUT|DELETE /api/furniture/:id',
+      orders: 'POST /api/orders (public), GET /api/orders (admin)',
+      notifications: 'GET /api/notifications (admin)',
+    },
+  })
+})
+
+/* ---------- Routes ---------- */
+import authRoutes from './routes/auth.routes'
+import categoryRoutes from './routes/category.routes'
+import furnitureRoutes from './routes/furniture.routes'
+import orderRoutes from './routes/order.routes'
+import notificationRoutes from './routes/notification.routes'
+
+app.use('/api/auth', authRoutes)
+app.use('/api/categories', categoryRoutes)
+app.use('/api/furniture', furnitureRoutes)
+app.use('/api/orders', orderRoutes)
+app.use('/api/notifications', notificationRoutes)
 
 /* ---------- 404 Handler ---------- */
 app.use((req, res) => {

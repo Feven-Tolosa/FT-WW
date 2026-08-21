@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { Heart, Menu, Search, ShoppingBag, X } from 'lucide-react'
 import Container from '../Container'
+import { getWishlist, WISHLIST_EVENT } from '@/lib/wishlist'
 
 const categories = [
   {
@@ -34,12 +35,21 @@ export default function Navbar() {
   const [searchOpen, setSearchOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [wishlistCount, setWishlistCount] = useState(0)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  useEffect(() => {
+    const sync = () =>
+      setWishlistCount(getWishlist().length)
+    sync()
+    window.addEventListener(WISHLIST_EVENT, sync)
+    return () => window.removeEventListener(WISHLIST_EVENT, sync)
   }, [])
 
   return (
@@ -146,12 +156,18 @@ export default function Navbar() {
             >
               <Search size={18} />
             </button>
-            <button
+            <Link
+              href='/wishlist'
               aria-label='Wishlist'
-              className='hidden transition-opacity hover:opacity-70 sm:block'
+              className='relative hidden transition-opacity hover:opacity-70 sm:block'
             >
               <Heart size={18} />
-            </button>
+              {wishlistCount > 0 && (
+                <span className='absolute -top-1.5 -right-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-red-600 px-1 text-[10px] font-medium text-white'>
+                  {wishlistCount}
+                </span>
+              )}
+            </Link>
             <Link
               href='/order'
               aria-label='Cart'

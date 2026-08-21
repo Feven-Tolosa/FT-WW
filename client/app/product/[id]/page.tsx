@@ -1,23 +1,60 @@
-import { furnitures } from '@/data/furnitures'
 import Image from 'next/image'
 import Container from '@/components/Container'
 import FurnitureCard from '@/components/FurnitureCard'
 import Link from 'next/link'
+import { furnitures } from '@/data/furnitures'
 
-interface Props {
-  params: { id: string }
+type StaticFurniture = (typeof furnitures)[number]
+
+type ApiFurniture = {
+  id: number
+  name: string
+  description: string
+  price: string | number
+  imageUrl?: string | null
+  category?: { name: string } | null
 }
 
-export default function ProductPage({ params }: Props) {
-  const product = furnitures.find((item) => item.id === params.id)
+async function getProduct(
+  id: string
+): Promise<StaticFurniture | null> {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:5000/api'}/furniture/${id}`,
+      { cache: 'no-store' }
+    )
+    if (res.ok) {
+      const item: ApiFurniture = await res.json()
+      return {
+        id: String(item.id),
+        name: item.name,
+        price: Number(item.price),
+        category: item.category?.name?.toLowerCase() ?? 'other',
+        image: item.imageUrl || '/images/1.png',
+        description: item.description,
+      }
+    }
+  } catch {
+    // Backend offline → fall through to bundled data
+  }
+
+  return furnitures.find((item) => item.id === id) ?? null
+}
+
+export default async function ProductPage({
+  params,
+}: {
+  params: Promise<{ id: string }>
+}) {
+  const { id } = await params
+  const product = await getProduct(id)
 
   if (!product) {
     return <div className='pt-40 text-center'>Product not found</div>
   }
 
-  // 🔑 Related furniture (same category, different product)
   const relatedFurniture = furnitures.filter(
-    (item) => item.category === product.category && item.id !== product.id,
+    (item) => item.category === product.category && item.id !== product.id
   )
 
   return (
@@ -41,7 +78,7 @@ export default function ProductPage({ params }: Props) {
               {product.name}
             </h1>
             <p className='mt-4 text-xl text-gray-700'>
-              ETB {product.price.toLocaleString()}
+              ETB {Number(product.price).toLocaleString()}
             </p>
             <p className='mt-6 text-gray-600 leading-relaxed'>
               {product.description}

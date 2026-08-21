@@ -6,14 +6,73 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
-// Admin table
+// Admin table — dawit & Beriso (login by email, JWT protected)
 model Admin {
-  id       Int     @id @default(autoincrement())
-  name     String
-  email    String  @unique
-  password String
-  role     String
+  id        Int         @id @default(autoincrement())
+  name      String
+  email     String      @unique
+  password  String
+  phone     String?
+  role      String      @default("ADMIN")
+  furniture Furniture[]
+  createdAt DateTime    @default(now())
+}
+
+model Category {
+  id        Int         @id @default(autoincrement())
+  name      String      @unique
+  furniture Furniture[]
+}
+
+// Uploaded only by admin, visible to everyone
+model Furniture {
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String    @default("")
+  price       Decimal   @db.Decimal(10, 2)
+  imageUrl    String?
+  available   Boolean   @default(true)
+  adminId     Int?
+  admin       Admin?    @relation(fields: [adminId], references: [id])
+  categoryId  Int?
+  category    Category? @relation(fields: [categoryId], references: [id])
+  orders      Order[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([adminId])
+  @@index([categoryId])
+}
+
+enum OrderStatus {
+  PENDING
+  COMPLETED
+  CANCELLED
+}
+
+// Client does not need an account — only name & phone required
+model Order {
+  id            Int           @id @default(autoincrement())
+  customerName  String
+  customerPhone String
+  furnitureId   Int
+  furniture     Furniture     @relation(fields: [furnitureId], references: [id])
+  status        OrderStatus   @default(PENDING)
+  notification  Notification?
+  createdAt     DateTime      @default(now())
+
+  @@index([status])
+}
+
+model Notification {
+  id        Int      @id @default(autoincrement())
+  message   String
+  isRead    Boolean  @default(false)
+  orderId   Int?     @unique
+  order     Order?   @relation(fields: [orderId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@index([isRead])
 }
