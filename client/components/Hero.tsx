@@ -50,28 +50,35 @@ export default function Hero() {
   const slide = slides[current]
 
   return (
-    <section className='relative h-svh min-h-[640px] overflow-hidden bg-stone-950'>
+    <section className='relative h-svh min-h-160 overflow-hidden bg-stone-950'>
       {/* Slides */}
       {slides.map((s, index) => (
         <div
           key={s.image}
-          className={`absolute inset-0 transition-opacity duration-[1200ms] ease-out ${
+          className={`absolute inset-0 transition-opacity duration-1500 ease-in-out ${
             index === current ? 'z-10 opacity-100' : 'z-0 opacity-0'
           }`}
         >
-          <Image
-            src={s.image}
-            alt=''
-            fill
-            priority={index === 0}
-            sizes='100vw'
-            className={`object-cover ${index === current ? 'animate-heroZoom' : ''}`}
-          />
+          <div
+            key={`${s.image}-${index === current}`}
+            className={`absolute inset-0 ${
+              index === current ? 'animate-heroZoom' : 'scale-105'
+            }`}
+          >
+            <Image
+              src={s.image}
+              alt=''
+              fill
+              priority={index === 0}
+              sizes='100vw'
+              className='object-cover'
+            />
+          </div>
         </div>
       ))}
 
       {/* Overlay */}
-      <div className='absolute inset-0 z-20 bg-gradient-to-t from-black/80 via-black/30 to-black/40' />
+      <div className='absolute inset-0 z-20 bg-linear-to-t from-black/80 via-black/30 to-black/40' />
 
       {/* Content */}
       <div className='relative z-30 flex h-full items-end pb-28 md:items-center md:pb-0'>

@@ -16,6 +16,7 @@ const exploreLinks = [
   { label: 'All Collections', href: '/collections' },
   { label: 'Your Wishlist', href: '/wishlist' },
   { label: 'Place an Order', href: '/order' },
+  { label: 'Track Your Order', href: '/order-history' },
 ]
 
 const categoryLinks = [
