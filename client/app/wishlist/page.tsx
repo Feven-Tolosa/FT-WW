@@ -43,13 +43,11 @@ export default function WishlistPage() {
                 category: item.category?.name?.toLowerCase() ?? 'other',
                 image: item.imageUrl || '/images/1.png',
                 description: item.description,
-              }))
+              })),
           )
         })
         .catch(() => {
-          setItems(
-            furnitures.filter((item) => ids.includes(item.id))
-          )
+          setItems(furnitures.filter((item) => ids.includes(item.id)))
         })
     }
 
@@ -59,15 +57,8 @@ export default function WishlistPage() {
   }, [])
 
   return (
-    <section className='pt-32 pb-24'>
-      <div className='mx-auto max-w-[1400px] px-6 lg:px-[max(1.5rem,calc((100vw-1400px)/2+1.5rem))]'>
-        <h1 className='text-3xl font-light tracking-wide'>Your Wishlist</h1>
-        <p className='mt-2 text-sm text-gray-500'>
-          Items you have saved while browsing.
-        </p>
-      </div>
-
-      <div className='mt-12'>
+    <section className='pb-24'>
+      <div className='mt-5'>
         {items === null ? (
           <p className='py-24 text-center text-gray-500'>Loading…</p>
         ) : items.length === 0 ? (

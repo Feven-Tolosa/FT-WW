@@ -16,6 +16,12 @@ type Order = {
 
 const PAGE_SIZE = 6
 
+const statusStyles: Record<Order['status'], string> = {
+  PENDING: 'bg-yellow-100 text-yellow-800',
+  COMPLETED: 'bg-green-100 text-green-800',
+  CANCELLED: 'bg-red-100 text-red-800',
+}
+
 export default function OrdersPage() {
   const router = useRouter()
   const [orders, setOrders] = useState<Order[]>([])
@@ -73,16 +79,19 @@ export default function OrdersPage() {
   }
 
   return (
-    <div className='min-h-screen flex bg-gray-100'>
+    <div className='min-h-screen flex bg-stone-100'>
       <Aside />
 
-      <div className='flex-1 p-8 mt-13'>
-        <h1 className='text-2xl font-semibold mb-6 px-3 text-gray-800'>
-          Client Orders
-        </h1>
+      <main className='flex-1 p-6 md:p-10'>
+        <div className='mb-8'>
+          <p className='mb-1 text-xs font-medium uppercase tracking-[0.3em] text-wood-700'>
+            Orders
+          </p>
+          <h1 className='admin-page-title'>Client Orders</h1>
+        </div>
 
         {/* Search & Filter */}
-        <div className='px-3 mb-4 flex gap-3'>
+        <div className='mb-6 flex flex-wrap gap-3'>
           <input
             type='text'
             placeholder='Search by client, phone or product…'
@@ -91,7 +100,7 @@ export default function OrdersPage() {
               setSearch(e.target.value)
               setPage(1)
             }}
-            className='flex-1 max-w-xs border rounded p-2 text-sm text-gray-700 focus:outline-none focus:border-gray-800'
+            className='admin-input max-w-xs'
           />
           <select
             value={statusFilter}
@@ -99,7 +108,7 @@ export default function OrdersPage() {
               setStatusFilter(e.target.value)
               setPage(1)
             }}
-            className='border rounded p-2 text-sm text-gray-700 focus:outline-none focus:border-gray-800'
+            className='admin-input w-auto'
           >
             <option value='ALL'>All statuses</option>
             <option value='PENDING'>Pending</option>
@@ -108,114 +117,109 @@ export default function OrdersPage() {
           </select>
         </div>
 
-        <div className='px-3'>
-          <div className='bg-white rounded-lg shadow overflow-x-auto text-gray-600'>
+        <div className='admin-card overflow-hidden'>
+          <div className='overflow-x-auto'>
             <table className='w-full text-left'>
-              <thead className='bg-gray-100'>
+              <thead>
                 <tr>
-                  <th className='p-3'>Client</th>
-                  <th className='p-3'>Phone</th>
-                  <th className='p-3'>Product</th>
-                  <th className='p-3'>Price</th>
-                  <th className='p-3'>Status</th>
-                  <th className='p-3'>Action</th>
+                  <th className='admin-th'>Client</th>
+                  <th className='admin-th'>Phone</th>
+                  <th className='admin-th'>Product</th>
+                  <th className='admin-th'>Price</th>
+                  <th className='admin-th'>Status</th>
+                  <th className='admin-th'>Action</th>
                 </tr>
               </thead>
-
-              <tbody>
+              <tbody className='divide-y divide-stone-200'>
                 {pageOrders.map((order) => (
-                  <tr key={order.id} className='border-t'>
-                    <td className='p-3'>{order.customerName}</td>
-                    <td className='p-3'>
+                  <tr key={order.id} className='hover:bg-stone-50'>
+                    <td className='admin-td font-medium'>{order.customerName}</td>
+                    <td className='admin-td'>
                       <a
                         href={`tel:${order.customerPhone}`}
-                        className='text-blue-600 hover:underline'
+                        className='text-wood-700 hover:underline'
                       >
                         {order.customerPhone}
                       </a>
                     </td>
-                    <td className='p-3'>{order.furniture.name}</td>
-                    <td className='p-3'>
+                    <td className='admin-td'>{order.furniture.name}</td>
+                    <td className='admin-td'>
                       {Number(order.furniture.price).toLocaleString()} ETB
                     </td>
-                    <td className='p-3'>
+                    <td className='admin-td'>
                       <span
-                        className={`px-2 py-1 rounded text-sm ${
-                          order.status === 'PENDING'
-                            ? 'bg-yellow-100 text-yellow-800'
-                            : order.status === 'COMPLETED'
-                              ? 'bg-green-100 text-green-800'
-                              : 'bg-red-100 text-red-800'
-                        }`}
+                        className={`inline-block rounded-full px-2.5 py-1 text-xs ${statusStyles[order.status]}`}
                       >
                         {order.status.toLowerCase()}
                       </span>
                     </td>
-                    <td className='p-3 space-x-3'>
-                      {order.status === 'PENDING' && (
-                        <>
-                          <button
-                            onClick={() =>
-                              updateStatus(order.id, 'COMPLETED')
-                            }
-                            className='text-green-600 hover:underline'
-                          >
-                            Mark Completed
-                          </button>
-                          <button
-                            onClick={() =>
-                              updateStatus(order.id, 'CANCELLED')
-                            }
-                            className='text-red-600 hover:underline'
-                          >
-                            Cancel
-                          </button>
-                        </>
-                      )}
+                    <td className='admin-td'>
+                      <div className='inline-flex gap-4'>
+                        {order.status === 'PENDING' && (
+                          <>
+                            <button
+                              onClick={() =>
+                                updateStatus(order.id, 'COMPLETED')
+                              }
+                              className='text-sm text-wood-700 hover:underline'
+                            >
+                              Mark Completed
+                            </button>
+                            <button
+                              onClick={() =>
+                                updateStatus(order.id, 'CANCELLED')
+                              }
+                              className='text-sm text-red-600 hover:underline'
+                            >
+                              Cancel
+                            </button>
+                          </>
+                        )}
+                      </div>
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
-
-            {filtered.length === 0 && (
-              <p className='p-6 text-gray-500 text-center'>
-                No orders found.
-              </p>
-            )}
-
-            {/* Pagination */}
-            {filtered.length > 0 && (
-              <div className='flex justify-between items-center p-3 border-t text-sm text-gray-500'>
-                <span>
-                  {(safePage - 1) * PAGE_SIZE + 1}–
-                  {Math.min(safePage * PAGE_SIZE, filtered.length)} of{' '}
-                  {filtered.length}
-                </span>
-                <div className='space-x-2'>
-                  <button
-                    disabled={safePage <= 1}
-                    onClick={() => setPage(safePage - 1)}
-                    className='px-3 py-1 border rounded disabled:opacity-40 hover:bg-gray-50'
-                  >
-                    Prev
-                  </button>
-                  <span>
-                    Page {safePage} of {totalPages}
-                  </span>
-                  <button
-                    disabled={safePage >= totalPages}
-                    onClick={() => setPage(safePage + 1)}
-                    className='px-3 py-1 border rounded disabled:opacity-40 hover:bg-gray-50'
-                  >
-                    Next
-                  </button>
-                </div>
-              </div>
-            )}
           </div>
+
+          {filtered.length === 0 && (
+            <p className='py-12 text-center text-sm text-stone-500'>
+              No orders found.
+            </p>
+          )}
+
+          {/* Pagination */}
+          {filtered.length > 0 && (
+            <div className='flex flex-wrap items-center justify-between gap-3 border-t border-stone-200 p-4 text-sm text-stone-500'>
+              <span>
+                {(safePage - 1) * PAGE_SIZE + 1}–
+                {Math.min(safePage * PAGE_SIZE, filtered.length)} of{' '}
+                {filtered.length}
+              </span>
+              <div className='inline-flex items-center gap-2'>
+                <button
+                  disabled={safePage <= 1}
+                  onClick={() => setPage(safePage - 1)}
+                  className='admin-btn-ghost px-3 py-1 disabled:opacity-40'
+                >
+                  Prev
+                </button>
+                <span>
+                  Page {safePage} of {totalPages}
+                </span>
+                <button
+                  disabled={safePage >= totalPages}
+                  onClick={() => setPage(safePage + 1)}
+                  className='admin-btn-ghost px-3 py-1 disabled:opacity-40'
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+          )}
         </div>
-      </div>
+      </main>
     </div>
   )
 }

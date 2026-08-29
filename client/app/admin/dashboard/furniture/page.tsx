@@ -152,24 +152,24 @@ export default function FurniturePage() {
   }
 
   return (
-    <div className='min-h-screen flex bg-gray-100'>
+    <div className='min-h-screen flex bg-stone-100'>
       <Aside />
 
-      <div className='flex-1 p-8 mt-13'>
-        <div className='flex flex-1 justify-between items-center mb-6'>
-          <h1 className='text-2xl px-3 font-semibold text-gray-800'>
-            Furniture Management
-          </h1>
-          <button
-            onClick={openAddModal}
-            className='bg-[var(--wood)] text-white px-4 py-2 rounded hover:bg-[var(--wood-dark)]'
-          >
+      <main className='flex-1 p-6 md:p-10'>
+        <div className='mb-8 flex flex-wrap items-center justify-between gap-4'>
+          <div>
+            <p className='mb-1 text-xs font-medium uppercase tracking-[0.3em] text-wood-700'>
+              Catalog
+            </p>
+            <h1 className='admin-page-title'>Furniture Management</h1>
+          </div>
+          <button onClick={openAddModal} className='admin-btn'>
             + Add Furniture
           </button>
         </div>
 
         {/* Search & Filter */}
-        <div className='px-3 mb-4 flex gap-3'>
+        <div className='mb-6 flex flex-wrap gap-3'>
           <input
             type='text'
             placeholder='Search by name or description…'
@@ -178,7 +178,7 @@ export default function FurniturePage() {
               setSearch(e.target.value)
               setPage(1)
             }}
-            className='flex-1 max-w-xs border rounded p-2 text-sm text-gray-700 focus:outline-none focus:border-gray-800'
+            className='admin-input max-w-xs'
           />
           <select
             value={categoryFilter}
@@ -186,7 +186,7 @@ export default function FurniturePage() {
               setCategoryFilter(e.target.value)
               setPage(1)
             }}
-            className='border rounded p-2 text-sm text-gray-700 focus:outline-none focus:border-gray-800'
+            className='admin-input w-auto'
           >
             <option value='all'>All categories</option>
             {categories.map((c) => (
@@ -197,75 +197,78 @@ export default function FurniturePage() {
           </select>
         </div>
 
-        <div className='bg-white rounded-lg shadow overflow-hidden mb-100 mx-3'>
-          <table className='w-full text-sm'>
-            <thead className='bg-gray-100 text-gray-600 text-left'>
-              <tr>
-                <th className='p-3'>Name</th>
-                <th className='p-3'>Category</th>
-                <th className='p-3'>Price (ETB)</th>
-                <th className='p-3'>Availability</th>
-                <th className='p-3 text-right'>Actions</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {pageItems.map((item) => (
-                <tr key={item.id} className='border-t text-gray-500'>
-                  <td className='p-3'>{item.name}</td>
-                  <td className='p-3'>{item.category?.name ?? '—'}</td>
-                  <td className='p-3'>
-                    {Number(item.price).toLocaleString()}
-                  </td>
-                  <td className='p-3'>
-                    <span
-                      className={`px-2 py-1 rounded text-xs ${
-                        item.available
-                          ? 'bg-green-100 text-green-800'
-                          : 'bg-gray-200 text-gray-600'
-                      }`}
-                    >
-                      {item.available ? 'Available' : 'Unavailable'}
-                    </span>
-                  </td>
-                  <td className='p-3 text-right space-x-3'>
-                    <button
-                      onClick={() => openEditModal(item)}
-                      className='text-blue-600 hover:underline'
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => handleDelete(item.id)}
-                      className='text-red-600 hover:underline'
-                    >
-                      Delete
-                    </button>
-                  </td>
+        <div className='admin-card overflow-hidden'>
+          <div className='overflow-x-auto'>
+            <table className='w-full text-left'>
+              <thead>
+                <tr>
+                  <th className='admin-th'>Name</th>
+                  <th className='admin-th'>Category</th>
+                  <th className='admin-th'>Price (ETB)</th>
+                  <th className='admin-th'>Availability</th>
+                  <th className='admin-th text-right'>Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className='divide-y divide-stone-200'>
+                {pageItems.map((item) => (
+                  <tr key={item.id} className='hover:bg-stone-50'>
+                    <td className='admin-td font-medium'>{item.name}</td>
+                    <td className='admin-td'>{item.category?.name ?? '—'}</td>
+                    <td className='admin-td'>
+                      {Number(item.price).toLocaleString()}
+                    </td>
+                    <td className='admin-td'>
+                      <span
+                        className={`inline-block rounded-full px-2.5 py-1 text-xs ${
+                          item.available
+                            ? 'bg-green-100 text-green-800'
+                            : 'bg-stone-200 text-stone-600'
+                        }`}
+                      >
+                        {item.available ? 'Available' : 'Unavailable'}
+                      </span>
+                    </td>
+                    <td className='admin-td text-right'>
+                      <div className='inline-flex gap-4'>
+                        <button
+                          onClick={() => openEditModal(item)}
+                          className='text-sm text-wood-700 hover:underline'
+                        >
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => handleDelete(item.id)}
+                          className='text-sm text-red-600 hover:underline'
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
 
           {filtered.length === 0 && (
-            <p className='p-4 text-gray-500 text-center'>
+            <p className='py-12 text-center text-sm text-stone-500'>
               No furniture found.
             </p>
           )}
 
           {/* Pagination */}
           {filtered.length > 0 && (
-            <div className='flex justify-between items-center p-3 border-t text-sm text-gray-500'>
+            <div className='flex flex-wrap items-center justify-between gap-3 border-t border-stone-200 p-4 text-sm text-stone-500'>
               <span>
                 {(safePage - 1) * PAGE_SIZE + 1}–
                 {Math.min(safePage * PAGE_SIZE, filtered.length)} of{' '}
                 {filtered.length}
               </span>
-              <div className='space-x-2'>
+              <div className='inline-flex items-center gap-2'>
                 <button
                   disabled={safePage <= 1}
                   onClick={() => setPage(safePage - 1)}
-                  className='px-3 py-1 border rounded disabled:opacity-40 hover:bg-gray-50'
+                  className='admin-btn-ghost px-3 py-1 disabled:opacity-40'
                 >
                   Prev
                 </button>
@@ -275,7 +278,7 @@ export default function FurniturePage() {
                 <button
                   disabled={safePage >= totalPages}
                   onClick={() => setPage(safePage + 1)}
-                  className='px-3 py-1 border rounded disabled:opacity-40 hover:bg-gray-50'
+                  className='admin-btn-ghost px-3 py-1 disabled:opacity-40'
                 >
                   Next
                 </button>
@@ -283,83 +286,98 @@ export default function FurniturePage() {
             </div>
           )}
         </div>
-      </div>
+      </main>
 
       {isOpen && (
-        <div className='fixed inset-0 bg-black/40 flex items-center justify-center z-50'>
+        <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4'>
           <form
             onSubmit={handleSave}
-            className='bg-white rounded-lg w-full max-w-md p-6 max-h-[90vh] overflow-y-auto'
+            className='admin-card max-h-[90vh] w-full max-w-md overflow-y-auto p-6'
           >
-            <h2 className='text-xl font-semibold text-gray-500 mb-4'>
+            <h2 className='mb-1 text-xl font-light tracking-tight text-stone-900'>
               {editingId ? 'Edit Furniture' : 'Add Furniture'}
             </h2>
+            <p className='mb-5 text-xs uppercase tracking-[0.3em] text-wood-700'>
+              {editingId ? 'Update your catalog item' : 'Create a new catalog item'}
+            </p>
 
             {error && (
-              <p className='mb-3 text-sm text-red-600 bg-red-50 border border-red-200 rounded p-2'>
+              <p className='mb-3 rounded border border-red-200 bg-red-50 p-2 text-sm text-red-600'>
                 {error}
               </p>
             )}
 
-            <input
-              type='text'
-              required
-              placeholder='Furniture Name'
-              className='w-full border p-2 text-gray-700 rounded mb-3'
-              value={formData.name}
-              onChange={(e) =>
-                setFormData({ ...formData, name: e.target.value })
-              }
-            />
+            <div className='mb-3'>
+              <label className='admin-label'>Furniture Name</label>
+              <input
+                type='text'
+                required
+                className='admin-input'
+                value={formData.name}
+                onChange={(e) =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
+              />
+            </div>
 
-            <input
-              type='number'
-              required
-              min={0}
-              placeholder='Price (ETB)'
-              className='w-full border p-2 text-gray-700 rounded mb-3'
-              value={formData.price}
-              onChange={(e) =>
-                setFormData({ ...formData, price: e.target.value })
-              }
-            />
+            <div className='mb-3'>
+              <label className='admin-label'>Price (ETB)</label>
+              <input
+                type='number'
+                required
+                min={0}
+                className='admin-input'
+                value={formData.price}
+                onChange={(e) =>
+                  setFormData({ ...formData, price: e.target.value })
+                }
+              />
+            </div>
 
-            <select
-              className='w-full border p-2 text-gray-700 rounded mb-3'
-              value={formData.categoryId}
-              onChange={(e) =>
-                setFormData({ ...formData, categoryId: e.target.value })
-              }
-            >
-              <option value=''>No category</option>
-              {categories.map((c) => (
-                <option key={c.id} value={c.id}>
-                  {c.name}
-                </option>
-              ))}
-            </select>
+            <div className='mb-3'>
+              <label className='admin-label'>Category</label>
+              <select
+                className='admin-input'
+                value={formData.categoryId}
+                onChange={(e) =>
+                  setFormData({ ...formData, categoryId: e.target.value })
+                }
+              >
+                <option value=''>No category</option>
+                {categories.map((c) => (
+                  <option key={c.id} value={c.id}>
+                    {c.name}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-            <input
-              type='text'
-              placeholder='Image URL (/images/1.png)'
-              className='w-full border p-2 text-gray-700 rounded mb-3'
-              value={formData.imageUrl}
-              onChange={(e) =>
-                setFormData({ ...formData, imageUrl: e.target.value })
-              }
-            />
+            <div className='mb-3'>
+              <label className='admin-label'>Image URL</label>
+              <input
+                type='text'
+                placeholder='/images/1.png'
+                className='admin-input'
+                value={formData.imageUrl}
+                onChange={(e) =>
+                  setFormData({ ...formData, imageUrl: e.target.value })
+                }
+              />
+            </div>
 
-            <textarea
-              placeholder='Description'
-              rows={3}
-              className='w-full border p-2 text-gray-700 rounded mb-3'
-              value={formData.description}
-              onChange={(e) =>
-                setFormData({ ...formData, description: e.target.value })
-              }
-            />
+            <div className='mb-3'>
+              <label className='admin-label'>Description</label>
+              <textarea
+                rows={3}
+                className='admin-input'
+                value={formData.description}
+                onChange={(e) =>
+                  setFormData({ ...formData, description: e.target.value })
+                }
+              />
+            </div>
 
-            <label className='flex items-center gap-2 text-sm text-gray-600 mb-4'>
+            <label className='mb-5 flex items-center gap-2 text-sm text-stone-600'>
               <input
                 type='checkbox'
                 checked={formData.available}
@@ -374,15 +392,11 @@ export default function FurniturePage() {
               <button
                 type='button'
                 onClick={() => setIsOpen(false)}
-                className='px-4 py-2 rounded text-gray-400 border'
+                className='admin-btn-ghost'
               >
                 Cancel
               </button>
-              <button
-                type='submit'
-                disabled={saving}
-                className='px-4 py-2 rounded bg-[var(--wood)] text-white hover:bg-[var(--wood-dark)] disabled:opacity-50'
-              >
+              <button type='submit' disabled={saving} className='admin-btn'>
                 {saving ? 'Saving…' : editingId ? 'Update' : 'Add'}
               </button>
             </div>

@@ -63,59 +63,70 @@ export default function NotificationsPage() {
   }
 
   return (
-    <div className='min-h-screen flex bg-gray-100'>
+    <div className='min-h-screen flex bg-stone-100'>
       <Aside />
 
-      <div className='flex-1 p-8 mt-13'>
-        <div className='flex justify-between items-center mb-6'>
-          <h1 className='text-2xl px-3 font-semibold text-gray-800'>
-            Order Notifications
-          </h1>
-          <button
-            onClick={markAllRead}
-            className='text-sm text-blue-600 hover:underline mr-3'
-          >
-            Mark all as read
-          </button>
+      <main className='flex-1 p-6 md:p-10'>
+        <div className='mb-8 flex flex-wrap items-center justify-between gap-4'>
+          <div>
+            <p className='mb-1 text-xs font-medium uppercase tracking-[0.3em] text-wood-700'>
+              Inbox
+            </p>
+            <h1 className='admin-page-title'>Order Notifications</h1>
+          </div>
+          {items.length > 0 && (
+            <button
+              onClick={markAllRead}
+              className='text-sm text-wood-700 underline-offset-4 hover:underline'
+            >
+              Mark all as read
+            </button>
+          )}
         </div>
 
-        <div className='px-3 space-y-3'>
-          {loading && <p className='text-gray-500'>Loading…</p>}
+        <div className='space-y-3'>
+          {loading && (
+            <p className='admin-card p-8 text-center text-sm text-stone-500'>
+              Loading…
+            </p>
+          )}
 
           {!loading && items.length === 0 && (
-            <p className='text-gray-500'>No notifications yet.</p>
+            <p className='admin-card p-8 text-center text-sm text-stone-500'>
+              No notifications yet.
+            </p>
           )}
 
           {items.map((n) => (
             <div
               key={n.id}
-              className={`bg-white rounded-lg shadow p-4 border-l-4 ${
-                n.isRead ? 'border-gray-200 opacity-70' : 'border-[var(--wood)]'
+              className={`admin-card border-l-4 p-5 ${
+                n.isRead ? 'border-l-stone-200 opacity-70' : 'border-l-wood-500'
               }`}
             >
-              <div className='flex justify-between items-start gap-4'>
+              <div className='flex items-start justify-between gap-4'>
                 <div>
-                  <p className='font-medium text-gray-700'>
+                  <p className='font-medium text-stone-800'>
                     {!n.isRead && (
-                      <span className='inline-block w-2 h-2 rounded-full bg-red-500 mr-2 align-middle' />
+                      <span className='mr-2 inline-block h-2 w-2 rounded-full bg-wood-600 align-middle' />
                     )}
                     {n.message}
                   </p>
 
                   {n.order && (
-                    <p className='text-sm text-gray-500 mt-1'>
+                    <p className='mt-1 text-sm text-stone-500'>
                       Selected furniture:{' '}
-                      <span className='text-gray-700'>
+                      <span className='text-stone-800'>
                         {n.order.furniture.name}
                       </span>{' '}
                       · Order date:{' '}
-                      <span className='text-gray-700'>
+                      <span className='text-stone-800'>
                         {new Date(n.order.createdAt).toLocaleDateString()}
                       </span>{' '}
                       · Client:{' '}
                       <a
                         href={`tel:${n.order.customerPhone}`}
-                        className='text-blue-600 hover:underline'
+                        className='text-wood-700 hover:underline'
                       >
                         {n.order.customerName} ({n.order.customerPhone})
                       </a>
@@ -126,7 +137,7 @@ export default function NotificationsPage() {
                 {!n.isRead && (
                   <button
                     onClick={() => markRead(n.id)}
-                    className='shrink-0 text-sm text-gray-500 hover:text-gray-800 hover:underline'
+                    className='shrink-0 text-sm text-stone-500 underline-offset-4 hover:text-stone-800 hover:underline'
                   >
                     Mark read
                   </button>
@@ -135,7 +146,7 @@ export default function NotificationsPage() {
             </div>
           ))}
         </div>
-      </div>
+      </main>
     </div>
   )
 }

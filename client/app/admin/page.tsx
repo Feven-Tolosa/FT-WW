@@ -9,27 +9,31 @@ export default function AdminIndexPage() {
   const [token, setToken] = useState<string | null | undefined>(undefined)
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setToken(getToken())
   }, [])
 
   return (
-    <div className='min-h-screen flex items-center justify-center bg-gray-100 px-4'>
-      <div className='bg-white rounded-lg shadow-md w-full max-w-sm p-10 text-center'>
-        <h1 className='text-2xl font-semibold text-gray-800 mb-2'>
-          Admin Panel
+    <div className='flex min-h-screen items-center justify-center bg-stone-100 px-4'>
+      <div className='admin-card w-full max-w-sm p-10 text-center'>
+        <h1 className='mb-1 text-2xl font-light tracking-tight text-stone-900'>
+          TF Wood Works
         </h1>
-        <p className='text-sm text-gray-500 mb-8'>
+        <p className='mb-2 text-xs font-medium uppercase tracking-[0.3em] text-wood-700'>
+          Admin Panel
+        </p>
+        <p className='mb-8 text-sm text-stone-500'>
           {token
             ? 'You are signed in. Continue to your dashboard.'
             : 'Sign in to manage furniture, orders and notifications.'}
         </p>
 
         {token === undefined ? (
-          <p className='text-sm text-gray-400'>Checking session…</p>
+          <p className='text-sm text-stone-400'>Checking session…</p>
         ) : token ? (
           <Link
             href='/admin/dashboard'
-            className='inline-flex w-full items-center justify-center gap-2 bg-[var(--wood)] text-white py-2.5 rounded hover:bg-[var(--wood-dark)] transition'
+            className='admin-btn inline-flex w-full'
           >
             Go to Dashboard
             <ArrowRight size={16} />
@@ -37,7 +41,7 @@ export default function AdminIndexPage() {
         ) : (
           <Link
             href='/admin/login'
-            className='inline-flex w-full items-center justify-center gap-2 bg-[var(--wood)] text-white py-2.5 rounded hover:bg-[var(--wood-dark)] transition'
+            className='admin-btn inline-flex w-full'
           >
             Admin Login
             <ArrowRight size={16} />

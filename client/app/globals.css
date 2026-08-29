@@ -22,6 +22,8 @@
 :root {
   --background: #faf8f4;
   --foreground: #1c1917;
+  --wood: var(--color-wood-700);
+  --wood-dark: var(--color-wood-800);
 }
 
 body {
@@ -36,6 +38,33 @@ body {
 }
 
 /* ---------- Animations ---------- */
+
+@layer components {
+  .admin-btn {
+    @apply inline-flex items-center justify-center gap-2 rounded bg-stone-900 px-4 py-2 text-sm font-medium uppercase tracking-widest text-white transition-colors hover:bg-wood-700 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .admin-btn-ghost {
+    @apply inline-flex items-center justify-center rounded border border-stone-300 bg-white px-4 py-2 text-sm text-stone-700 transition-colors hover:border-stone-900 hover:text-stone-900;
+  }
+  .admin-input {
+    @apply w-full rounded border border-stone-300 bg-white px-3 py-2 text-sm text-stone-800 outline-none transition-colors placeholder:text-stone-400 focus:border-wood-600;
+  }
+  .admin-label {
+    @apply mb-1 block text-xs font-medium uppercase tracking-widest text-stone-500;
+  }
+  .admin-th {
+    @apply bg-stone-100 px-4 py-3 text-left text-xs font-semibold uppercase tracking-widest text-stone-500;
+  }
+  .admin-td {
+    @apply px-4 py-3 text-sm text-stone-700;
+  }
+  .admin-card {
+    @apply rounded-lg border border-stone-200 bg-white shadow-sm;
+  }
+  .admin-page-title {
+    @apply text-2xl font-light tracking-tight text-stone-900;
+  }
+}
 
 @keyframes heroText {
   from {

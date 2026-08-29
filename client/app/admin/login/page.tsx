@@ -39,49 +39,49 @@ export default function AdminLogin() {
   }
 
   return (
-    <div className='min-h-screen flex items-center justify-center bg-gray-100 px-4'>
+    <div className='flex min-h-screen items-center justify-center bg-stone-100 px-4'>
       <form
         onSubmit={handleSubmit}
-        className='bg-white rounded-lg shadow-md w-full max-w-sm p-8'
+        className='admin-card w-full max-w-sm p-8'
       >
-        <h1 className='text-2xl font-semibold text-gray-800 mb-1'>
-          Admin Login
+        <h1 className='mb-1 text-2xl font-light tracking-tight text-stone-900'>
+          TF Wood Works
         </h1>
-        <p className='text-sm text-gray-500 mb-6'>
-          Sign in to manage furniture and orders.
+        <p className='mb-7 text-xs font-medium uppercase tracking-[0.3em] text-wood-700'>
+          Admin Login
         </p>
 
         {error && (
-          <p className='mb-4 text-sm text-red-600 bg-red-50 border border-red-200 rounded p-2'>
+          <p className='mb-4 rounded border border-red-200 bg-red-50 p-2 text-sm text-red-600'>
             {error}
           </p>
         )}
 
-        <label className='block text-sm text-gray-600 mb-1'>Email</label>
-        <input
-          type='email'
-          required
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder='admin@example.com'
-          className='w-full border border-gray-300 rounded p-2 mb-4 text-gray-700 focus:outline-none focus:border-gray-800'
-        />
+        <div className='mb-4'>
+          <label className='admin-label'>Email</label>
+          <input
+            type='email'
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder='admin@example.com'
+            className='admin-input'
+          />
+        </div>
 
-        <label className='block text-sm text-gray-600 mb-1'>Password</label>
-        <input
-          type='password'
-          required
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder='••••••••'
-          className='w-full border border-gray-300 rounded p-2 mb-6 text-gray-700 focus:outline-none focus:border-gray-800'
-        />
+        <div className='mb-6'>
+          <label className='admin-label'>Password</label>
+          <input
+            type='password'
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder='••••••••'
+            className='admin-input'
+          />
+        </div>
 
-        <button
-          type='submit'
-          disabled={loading}
-          className='w-full bg-[var(--wood)] text-white py-2.5 rounded hover:bg-[var(--wood-dark)] disabled:opacity-50 transition'
-        >
+        <button type='submit' disabled={loading} className='admin-btn w-full'>
           {loading ? 'Signing in…' : 'Sign In'}
         </button>
       </form>

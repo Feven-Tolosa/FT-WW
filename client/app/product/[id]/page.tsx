@@ -12,6 +12,7 @@ type ApiFurniture = {
   description: string
   price: string | number
   imageUrl?: string | null
+  available?: boolean
   category?: { name: string } | null
 }
 
@@ -53,9 +54,40 @@ export default async function ProductPage({
     return <div className='pt-40 text-center'>Product not found</div>
   }
 
-  const relatedFurniture = furnitures.filter(
+  let relatedFurniture = furnitures.filter(
     (item) => item.category === product.category && item.id !== product.id
   )
+
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:5000/api'}/furniture`,
+      { cache: 'no-store' }
+    )
+    if (res.ok) {
+      const data: ApiFurniture[] = await res.json()
+      const mapped = data
+        .filter(
+          (item) =>
+            String(item.id) !== id &&
+            item.category?.name &&
+            item.category.name.toLowerCase() === product.category &&
+            item.available !== false
+        )
+        .map((item) => ({
+          id: String(item.id),
+          name: item.name,
+          price: Number(item.price),
+          category: item.category?.name?.toLowerCase() ?? 'other',
+          image: item.imageUrl || '/images/1.png',
+          description: item.description,
+        }))
+      if (mapped.length > 0) relatedFurniture = mapped
+    }
+  } catch {
+    // Backend offline → keep bundled related items
+  }
+
+  relatedFurniture = relatedFurniture.slice(0, 3)
 
   return (
     <section className='pt-32 pb-24'>

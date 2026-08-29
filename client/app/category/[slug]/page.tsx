@@ -9,15 +9,61 @@ interface Props {
   }
 }
 
-export default function CategoryPage({ params }: Props) {
+type ApiFurniture = {
+  id: number
+  name: string
+  description: string
+  price: string | number
+  imageUrl?: string | null
+  available?: boolean
+  category?: { name: string } | null
+}
+
+async function getProducts(slug: string) {
+  let items = furnitures.filter(
+    (item) =>
+      item.category && item.category.toLowerCase() === slug.toLowerCase(),
+  )
+
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:5000/api'}/furniture`,
+      { cache: 'no-store' }
+    )
+    if (res.ok) {
+      const data: ApiFurniture[] = await res.json()
+      if (data.length > 0) {
+        const mapped = data
+          .filter(
+            (item) =>
+              item.category?.name &&
+              item.category.name.toLowerCase() === slug.toLowerCase() &&
+              item.available !== false
+          )
+          .map((item) => ({
+            id: String(item.id),
+            name: item.name,
+            price: Number(item.price),
+            category: item.category?.name?.toLowerCase() ?? 'other',
+            image: item.imageUrl || '/images/1.png',
+            description: item.description,
+          }))
+        if (mapped.length > 0) items = mapped
+      }
+    }
+  } catch {
+    // Backend offline → keep bundled sample data
+  }
+
+  return items
+}
+
+export default async function CategoryPage({ params }: Props) {
   const slug = params?.slug
   if (!slug) {
     return <div className='pt-40 text-center'>Invalid category</div>
   }
-  const products = furnitures.filter(
-    (item) =>
-      item.category && item.category.toLowerCase() === slug.toLowerCase(),
-  )
+  const products = await getProducts(slug)
 
   if (products.length === 0) {
     return <div className='pt-40 text-center'>Category not found</div>
@@ -74,6 +120,7 @@ export default function CategoryPage({ params }: Props) {
               name={item.name}
               price={item.price}
               image={item.image}
+              href={`/product/${item.id}`}
             />
           ))}
         </div>
