@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import Aside from '@/components/Aside'
+import AdminShell from '@/components/AdminShell'
 import { api, getToken, clearToken } from '@/lib/api'
 import { useRouter } from 'next/navigation'
 
@@ -79,147 +79,202 @@ export default function OrdersPage() {
   }
 
   return (
-    <div className='min-h-screen flex bg-stone-100'>
-      <Aside />
+    <AdminShell>
+      <div className='mb-6 sm:mb-8'>
+        <p className='mb-1 text-xs font-medium uppercase tracking-[0.3em] text-wood-700'>
+          Orders
+        </p>
+        <h1 className='admin-page-title'>Client Orders</h1>
+      </div>
 
-      <main className='flex-1 p-6 md:p-10'>
-        <div className='mb-8'>
-          <p className='mb-1 text-xs font-medium uppercase tracking-[0.3em] text-wood-700'>
-            Orders
-          </p>
-          <h1 className='admin-page-title'>Client Orders</h1>
-        </div>
+      {/* Search & Filter */}
+      <div className='mb-6 flex flex-col gap-3 sm:flex-row'>
+        <input
+          type='text'
+          placeholder='Search by client, phone or product…'
+          value={search}
+          onChange={(e) => {
+            setSearch(e.target.value)
+            setPage(1)
+          }}
+          className='admin-input sm:max-w-xs'
+        />
+        <select
+          value={statusFilter}
+          onChange={(e) => {
+            setStatusFilter(e.target.value)
+            setPage(1)
+          }}
+          className='admin-input sm:w-auto'
+        >
+          <option value='ALL'>All statuses</option>
+          <option value='PENDING'>Pending</option>
+          <option value='COMPLETED'>Completed</option>
+          <option value='CANCELLED'>Cancelled</option>
+        </select>
+      </div>
 
-        {/* Search & Filter */}
-        <div className='mb-6 flex flex-wrap gap-3'>
-          <input
-            type='text'
-            placeholder='Search by client, phone or product…'
-            value={search}
-            onChange={(e) => {
-              setSearch(e.target.value)
-              setPage(1)
-            }}
-            className='admin-input max-w-xs'
-          />
-          <select
-            value={statusFilter}
-            onChange={(e) => {
-              setStatusFilter(e.target.value)
-              setPage(1)
-            }}
-            className='admin-input w-auto'
-          >
-            <option value='ALL'>All statuses</option>
-            <option value='PENDING'>Pending</option>
-            <option value='COMPLETED'>Completed</option>
-            <option value='CANCELLED'>Cancelled</option>
-          </select>
-        </div>
-
-        <div className='admin-card overflow-hidden'>
-          <div className='overflow-x-auto'>
-            <table className='w-full text-left'>
-              <thead>
-                <tr>
-                  <th className='admin-th'>Client</th>
-                  <th className='admin-th'>Phone</th>
-                  <th className='admin-th'>Product</th>
-                  <th className='admin-th'>Price</th>
-                  <th className='admin-th'>Status</th>
-                  <th className='admin-th'>Action</th>
-                </tr>
-              </thead>
-              <tbody className='divide-y divide-stone-200'>
-                {pageOrders.map((order) => (
-                  <tr key={order.id} className='hover:bg-stone-50'>
-                    <td className='admin-td font-medium'>{order.customerName}</td>
-                    <td className='admin-td'>
+      <div className='admin-card overflow-hidden'>
+        {pageOrders.length > 0 && (
+          <>
+            {/* Mobile order cards */}
+            <div className='space-y-3 p-4 sm:hidden sm:p-0'>
+              {pageOrders.map((order) => (
+                <div
+                  key={order.id}
+                  className='rounded-lg border border-stone-200 bg-stone-50 p-4'
+                >
+                  <div className='flex items-start justify-between gap-3'>
+                    <div>
+                      <p className='font-medium text-stone-900'>
+                        {order.customerName}
+                      </p>
+                      <p className='mt-0.5 text-xs text-stone-500'>
+                        {order.furniture.name}
+                      </p>
                       <a
                         href={`tel:${order.customerPhone}`}
-                        className='text-wood-700 hover:underline'
+                        className='mt-0.5 block text-xs text-wood-700 hover:underline'
                       >
                         {order.customerPhone}
                       </a>
-                    </td>
-                    <td className='admin-td'>{order.furniture.name}</td>
-                    <td className='admin-td'>
-                      {Number(order.furniture.price).toLocaleString()} ETB
-                    </td>
-                    <td className='admin-td'>
-                      <span
-                        className={`inline-block rounded-full px-2.5 py-1 text-xs ${statusStyles[order.status]}`}
+                      <p className='mt-0.5 text-xs text-stone-500'>
+                        ETB {Number(order.furniture.price).toLocaleString()}
+                      </p>
+                    </div>
+                    <span
+                      className={`shrink-0 rounded-full px-2.5 py-1 text-xs ${statusStyles[order.status]}`}
+                    >
+                      {order.status.toLowerCase()}
+                    </span>
+                  </div>
+
+                  {order.status === 'PENDING' && (
+                    <div className='mt-3 flex gap-3'>
+                      <button
+                        onClick={() => updateStatus(order.id, 'COMPLETED')}
+                        className='flex-1 rounded border border-wood-300 bg-white px-4 py-2 text-sm text-wood-700 active:bg-wood-50'
                       >
-                        {order.status.toLowerCase()}
-                      </span>
-                    </td>
-                    <td className='admin-td'>
-                      <div className='inline-flex gap-4'>
-                        {order.status === 'PENDING' && (
-                          <>
-                            <button
-                              onClick={() =>
-                                updateStatus(order.id, 'COMPLETED')
-                              }
-                              className='text-sm text-wood-700 hover:underline'
-                            >
-                              Mark Completed
-                            </button>
-                            <button
-                              onClick={() =>
-                                updateStatus(order.id, 'CANCELLED')
-                              }
-                              className='text-sm text-red-600 hover:underline'
-                            >
-                              Cancel
-                            </button>
-                          </>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          {filtered.length === 0 && (
-            <p className='py-12 text-center text-sm text-stone-500'>
-              No orders found.
-            </p>
-          )}
-
-          {/* Pagination */}
-          {filtered.length > 0 && (
-            <div className='flex flex-wrap items-center justify-between gap-3 border-t border-stone-200 p-4 text-sm text-stone-500'>
-              <span>
-                {(safePage - 1) * PAGE_SIZE + 1}–
-                {Math.min(safePage * PAGE_SIZE, filtered.length)} of{' '}
-                {filtered.length}
-              </span>
-              <div className='inline-flex items-center gap-2'>
-                <button
-                  disabled={safePage <= 1}
-                  onClick={() => setPage(safePage - 1)}
-                  className='admin-btn-ghost px-3 py-1 disabled:opacity-40'
-                >
-                  Prev
-                </button>
-                <span>
-                  Page {safePage} of {totalPages}
-                </span>
-                <button
-                  disabled={safePage >= totalPages}
-                  onClick={() => setPage(safePage + 1)}
-                  className='admin-btn-ghost px-3 py-1 disabled:opacity-40'
-                >
-                  Next
-                </button>
-              </div>
+                        Mark Completed
+                      </button>
+                      <button
+                        onClick={() => updateStatus(order.id, 'CANCELLED')}
+                        className='rounded border border-red-200 bg-white px-4 py-2 text-sm text-red-600 active:bg-red-50'
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ))}
             </div>
-          )}
-        </div>
-      </main>
-    </div>
+
+            {/* Desktop orders table */}
+            <div className='hidden overflow-x-auto sm:block'>
+              <table className='w-full text-left'>
+                <thead>
+                  <tr>
+                    <th className='admin-th'>Client</th>
+                    <th className='admin-th'>Phone</th>
+                    <th className='admin-th'>Product</th>
+                    <th className='admin-th'>Price</th>
+                    <th className='admin-th'>Status</th>
+                    <th className='admin-th'>Action</th>
+                  </tr>
+                </thead>
+                <tbody className='divide-y divide-stone-200'>
+                  {pageOrders.map((order) => (
+                    <tr key={order.id} className='hover:bg-stone-50'>
+                      <td className='admin-td font-medium'>
+                        {order.customerName}
+                      </td>
+                      <td className='admin-td'>
+                        <a
+                          href={`tel:${order.customerPhone}`}
+                          className='text-wood-700 hover:underline'
+                        >
+                          {order.customerPhone}
+                        </a>
+                      </td>
+                      <td className='admin-td'>{order.furniture.name}</td>
+                      <td className='admin-td'>
+                        {Number(order.furniture.price).toLocaleString()} ETB
+                      </td>
+                      <td className='admin-td'>
+                        <span
+                          className={`inline-block rounded-full px-2.5 py-1 text-xs ${statusStyles[order.status]}`}
+                        >
+                          {order.status.toLowerCase()}
+                        </span>
+                      </td>
+                      <td className='admin-td'>
+                        <div className='inline-flex gap-4'>
+                          {order.status === 'PENDING' && (
+                            <>
+                              <button
+                                onClick={() =>
+                                  updateStatus(order.id, 'COMPLETED')
+                                }
+                                className='text-sm text-wood-700 hover:underline'
+                              >
+                                Mark Completed
+                              </button>
+                              <button
+                                onClick={() =>
+                                  updateStatus(order.id, 'CANCELLED')
+                                }
+                                className='text-sm text-red-600 hover:underline'
+                              >
+                                Cancel
+                              </button>
+                            </>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
+        )}
+
+        {filtered.length === 0 && (
+          <p className='p-12 text-center text-sm text-stone-500'>
+            No orders found.
+          </p>
+        )}
+
+        {/* Pagination */}
+        {filtered.length > 0 && (
+          <div className='flex flex-wrap items-center justify-between gap-3 border-t border-stone-200 p-4 text-sm text-stone-500'>
+            <span>
+              {(safePage - 1) * PAGE_SIZE + 1}–
+              {Math.min(safePage * PAGE_SIZE, filtered.length)} of{' '}
+              {filtered.length}
+            </span>
+            <div className='inline-flex items-center gap-2'>
+              <button
+                disabled={safePage <= 1}
+                onClick={() => setPage(safePage - 1)}
+                className='admin-btn-ghost px-4 py-2 disabled:opacity-40'
+              >
+                Prev
+              </button>
+              <span>
+                Page {safePage} of {totalPages}
+              </span>
+              <button
+                disabled={safePage >= totalPages}
+                onClick={() => setPage(safePage + 1)}
+                className='admin-btn-ghost px-4 py-2 disabled:opacity-40'
+              >
+                Next
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </AdminShell>
   )
 }

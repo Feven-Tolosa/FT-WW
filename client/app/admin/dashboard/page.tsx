@@ -3,7 +3,8 @@
 import { useCallback, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import Aside from '@/components/Aside'
+import { X } from 'lucide-react'
+import AdminShell from '@/components/AdminShell'
 import { api, getToken, clearToken } from '@/lib/api'
 
 type Furniture = {
@@ -186,70 +187,112 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className='min-h-screen flex bg-stone-100'>
-      <Aside />
+    <AdminShell>
+      <div className='mb-6 flex flex-wrap items-center justify-between gap-4 sm:mb-8'>
+        <div>
+          <p className='mb-1 text-xs font-medium uppercase tracking-[0.3em] text-wood-700'>
+            Management
+          </p>
+          <h1 className='admin-page-title'>Dashboard Overview</h1>
+        </div>
+        <button onClick={openAddModal} className='admin-btn w-full sm:w-auto'>
+          + Add Product
+        </button>
+      </div>
 
-      <main className='flex-1 p-6 md:p-10'>
-        <div className='mb-8 flex flex-wrap items-center justify-between gap-4'>
+      {flash && (
+        <p className='mb-6 rounded border border-green-200 bg-green-50 p-3 text-sm text-green-700'>
+          {flash}
+        </p>
+      )}
+
+      <div className='mb-8 grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-6'>
+        <StatCard
+          title='Total Furniture'
+          value={furnitureCount === null ? '…' : String(furnitureCount)}
+        />
+        <StatCard
+          title='Pending Orders'
+          value={pendingCount === null ? '…' : String(pendingCount)}
+        />
+        <StatCard
+          title='Unread Notifications'
+          value={unreadCount === null ? '…' : String(unreadCount)}
+        />
+      </div>
+
+      {/* Product management */}
+      <section className='admin-card mb-8 p-4 sm:p-6'>
+        <div className='mb-4 flex flex-wrap items-center justify-between gap-3'>
           <div>
             <p className='mb-1 text-xs font-medium uppercase tracking-[0.3em] text-wood-700'>
-              Management
+              Catalog
             </p>
-            <h1 className='admin-page-title'>Dashboard Overview</h1>
+            <h2 className='text-lg font-light tracking-tight text-stone-900'>
+              Products
+            </h2>
           </div>
-          <button onClick={openAddModal} className='admin-btn'>
-            + Add Product
-          </button>
+          <Link
+            href='/admin/dashboard/furniture'
+            className='text-sm text-wood-700 underline-offset-4 hover:underline'
+          >
+            Advanced management →
+          </Link>
         </div>
 
-        {flash && (
-          <p className='mb-6 rounded border border-green-200 bg-green-50 p-3 text-sm text-green-700'>
-            {flash}
-          </p>
-        )}
-
-        <div className='mb-10 grid grid-cols-1 gap-6 sm:grid-cols-3'>
-          <StatCard
-            title='Total Furniture'
-            value={furnitureCount === null ? '…' : String(furnitureCount)}
-          />
-          <StatCard
-            title='Pending Orders'
-            value={pendingCount === null ? '…' : String(pendingCount)}
-          />
-          <StatCard
-            title='Unread Notifications'
-            value={unreadCount === null ? '…' : String(unreadCount)}
-          />
-        </div>
-
-        {/* Product management */}
-        <section className='admin-card mb-10 p-6'>
-          <div className='mb-4 flex flex-wrap items-center justify-between gap-3'>
-            <div>
-              <p className='mb-1 text-xs font-medium uppercase tracking-[0.3em] text-wood-700'>
-                Catalog
-              </p>
-              <h2 className='text-lg font-light tracking-tight text-stone-900'>
-                Products
-              </h2>
-            </div>
-            <Link
-              href='/admin/dashboard/furniture'
-              className='text-sm text-wood-700 underline-offset-4 hover:underline'
-            >
-              Advanced management →
-            </Link>
+        {items.length === 0 ? (
+          <div className='rounded border border-dashed border-stone-300 bg-stone-50 py-10 text-center'>
+            <p className='text-sm text-stone-500'>
+              No products yet. Tap “+ Add Product” to create your first piece.
+            </p>
           </div>
-
-          {items.length === 0 ? (
-            <div className='rounded border border-dashed border-stone-300 bg-stone-50 py-12 text-center'>
-              <p className='text-sm text-stone-500'>
-                No products yet. Click “Add Product” to create your first piece.
-              </p>
+        ) : (
+          <>
+            {/* Mobile product cards */}
+            <div className='space-y-3 sm:hidden'>
+              {items.map((item) => (
+                <div
+                  key={item.id}
+                  className='rounded-lg border border-stone-200 bg-stone-50 p-4'
+                >
+                  <div className='flex items-start justify-between gap-3'>
+                    <div>
+                      <p className='font-medium text-stone-900'>{item.name}</p>
+                      <p className='mt-0.5 text-xs text-stone-500'>
+                        {item.category?.name ?? 'No category'} · ETB{' '}
+                        {Number(item.price).toLocaleString()}
+                      </p>
+                    </div>
+                    <span
+                      className={`shrink-0 rounded-full px-2.5 py-1 text-xs ${
+                        item.available
+                          ? 'bg-green-100 text-green-800'
+                          : 'bg-stone-200 text-stone-600'
+                      }`}
+                    >
+                      {item.available ? 'Available' : 'Unavailable'}
+                    </span>
+                  </div>
+                  <div className='mt-3 flex items-center gap-3'>
+                    <button
+                      onClick={() => openEditModal(item)}
+                      className='rounded border border-stone-300 bg-white px-4 py-2 text-sm text-wood-700 active:bg-stone-100'
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(item.id)}
+                      className='rounded border border-red-200 bg-white px-4 py-2 text-sm text-red-600 active:bg-red-50'
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              ))}
             </div>
-          ) : (
-            <div className='overflow-x-auto'>
+
+            {/* Desktop product table */}
+            <div className='hidden overflow-x-auto sm:block'>
               <table className='w-full text-left'>
                 <thead>
                   <tr>
@@ -300,33 +343,62 @@ export default function AdminDashboard() {
                 </tbody>
               </table>
             </div>
-          )}
-        </section>
+          </>
+        )}
+      </section>
 
-        <div className='mb-6 flex flex-wrap items-center justify-between gap-3'>
-          <div>
-            <p className='mb-1 text-xs font-medium uppercase tracking-[0.3em] text-wood-700'>
-              Activity
-            </p>
-            <h2 className='text-lg font-light tracking-tight text-stone-900'>
-              Recent Orders
-            </h2>
-          </div>
-          <Link
-            href='/admin/dashboard/notifications'
-            className='text-sm text-wood-700 underline-offset-4 hover:underline'
-          >
-            View notifications →
-          </Link>
+      <div className='mb-4 flex flex-wrap items-center justify-between gap-3'>
+        <div>
+          <p className='mb-1 text-xs font-medium uppercase tracking-[0.3em] text-wood-700'>
+            Activity
+          </p>
+          <h2 className='text-lg font-light tracking-tight text-stone-900'>
+            Recent Orders
+          </h2>
         </div>
+        <Link
+          href='/admin/dashboard/notifications'
+          className='text-sm text-wood-700 underline-offset-4 hover:underline'
+        >
+          View notifications →
+        </Link>
+      </div>
 
-        <section className='admin-card p-6'>
-          {recentOrders.length === 0 ? (
-            <p className='py-8 text-center text-sm text-stone-500'>
-              No orders yet.
-            </p>
-          ) : (
-            <div className='overflow-x-auto'>
+      <section className='admin-card p-4 sm:p-6'>
+        {recentOrders.length === 0 ? (
+          <p className='py-8 text-center text-sm text-stone-500'>No orders yet.</p>
+        ) : (
+          <>
+            {/* Mobile order cards */}
+            <div className='space-y-3 sm:hidden'>
+              {recentOrders.map((o) => (
+                <div
+                  key={o.id}
+                  className='rounded-lg border border-stone-200 bg-stone-50 p-4'
+                >
+                  <div className='flex items-start justify-between gap-3'>
+                    <div>
+                      <p className='font-medium text-stone-900'>
+                        {o.customerName}
+                      </p>
+                      <p className='mt-0.5 text-xs text-stone-500'>
+                        {o.furniture.name}
+                      </p>
+                      <a
+                        href={`tel:${o.customerPhone}`}
+                        className='mt-0.5 block text-xs text-wood-700 hover:underline'
+                      >
+                        {o.customerPhone}
+                      </a>
+                    </div>
+                    <OrderBadge status={o.status} />
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Desktop order table */}
+            <div className='hidden overflow-x-auto sm:block'>
               <table className='w-full text-left'>
                 <thead>
                   <tr>
@@ -350,139 +422,166 @@ export default function AdminDashboard() {
                 </tbody>
               </table>
             </div>
-          )}
+          </>
+        )}
 
-          <Link
-            href='/admin/dashboard/orders'
-            className='mt-4 inline-block text-sm text-wood-700 underline-offset-4 hover:underline'
-          >
-            View all orders →
-          </Link>
-        </section>
-      </main>
+        <Link
+          href='/admin/dashboard/orders'
+          className='mt-4 inline-block text-sm text-wood-700 underline-offset-4 hover:underline'
+        >
+          View all orders →
+        </Link>
+      </section>
 
       {isOpen && (
-        <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4'>
-          <form
-            onSubmit={handleSave}
-            className='admin-card max-h-[90vh] w-full max-w-md overflow-y-auto p-6'
-          >
-            <h2 className='mb-1 text-xl font-light tracking-tight text-stone-900'>
-              {editingId ? 'Edit Product' : 'Add Product'}
-            </h2>
-            <p className='mb-5 text-xs uppercase tracking-[0.3em] text-wood-700'>
-              {editingId ? 'Update your catalog item' : 'Create a new catalog item'}
-            </p>
+        <div className='fixed inset-0 z-50'>
+          <div
+            className='absolute inset-0 bg-black/50'
+            onClick={() => setIsOpen(false)}
+          />
+          <div className='absolute inset-x-0 bottom-0 sm:inset-0 sm:flex sm:items-center sm:justify-center'>
+            <form
+              onSubmit={handleSave}
+              className='max-h-[92dvh] w-full overflow-y-auto rounded-t-2xl bg-white p-5 shadow-xl sm:max-w-md sm:rounded-lg sm:p-7'
+            >
+              <div className='mb-4 flex items-start justify-between gap-3'>
+                <div>
+                  <h2 className='text-xl font-light tracking-tight text-stone-900'>
+                    {editingId ? 'Edit Product' : 'Add Product'}
+                  </h2>
+                  <p className='mt-1 text-xs uppercase tracking-[0.3em] text-wood-700'>
+                    {editingId
+                      ? 'Update your catalog item'
+                      : 'Create a new catalog item'}
+                  </p>
+                </div>
+                <button
+                  type='button'
+                  onClick={() => setIsOpen(false)}
+                  aria-label='Close'
+                  className='flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-stone-400 hover:bg-stone-100 hover:text-stone-700'
+                >
+                  <X size={20} />
+                </button>
+              </div>
 
-            {error && (
-              <p className='mb-3 rounded border border-red-200 bg-red-50 p-2 text-sm text-red-600'>
-                {error}
-              </p>
-            )}
+              {error && (
+                <p className='mb-3 rounded border border-red-200 bg-red-50 p-2 text-sm text-red-600'>
+                  {error}
+                </p>
+              )}
 
-            <div className='mb-3'>
-              <label className='admin-label'>Product Name</label>
-              <input
-                type='text'
-                required
-                className='admin-input'
-                value={formData.name}
-                onChange={(e) =>
-                  setFormData({ ...formData, name: e.target.value })
-                }
-              />
-            </div>
+              <div className='mb-3'>
+                <label className='admin-label'>Product Name</label>
+                <input
+                  type='text'
+                  required
+                  className='admin-input'
+                  value={formData.name}
+                  onChange={(e) =>
+                    setFormData({ ...formData, name: e.target.value })
+                  }
+                />
+              </div>
 
-            <div className='mb-3'>
-              <label className='admin-label'>Price (ETB)</label>
-              <input
-                type='number'
-                required
-                min={0}
-                className='admin-input'
-                value={formData.price}
-                onChange={(e) =>
-                  setFormData({ ...formData, price: e.target.value })
-                }
-              />
-            </div>
+              <div className='grid grid-cols-2 gap-3'>
+                <div className='mb-3'>
+                  <label className='admin-label'>Price (ETB)</label>
+                  <input
+                    type='number'
+                    required
+                    min={0}
+                    inputMode='decimal'
+                    className='admin-input'
+                    value={formData.price}
+                    onChange={(e) =>
+                      setFormData({ ...formData, price: e.target.value })
+                    }
+                  />
+                </div>
 
-            <div className='mb-3'>
-              <label className='admin-label'>Category</label>
-              <select
-                className='admin-input'
-                value={formData.categoryId}
-                onChange={(e) =>
-                  setFormData({ ...formData, categoryId: e.target.value })
-                }
-              >
-                <option value=''>No category</option>
-                {categories.map((c) => (
-                  <option key={c.id} value={c.id}>
-                    {c.name}
-                  </option>
-                ))}
-              </select>
-            </div>
+                <div className='mb-3'>
+                  <label className='admin-label'>Category</label>
+                  <select
+                    className='admin-input'
+                    value={formData.categoryId}
+                    onChange={(e) =>
+                      setFormData({ ...formData, categoryId: e.target.value })
+                    }
+                  >
+                    <option value=''>General</option>
+                    {categories.map((c) => (
+                      <option key={c.id} value={c.id}>
+                        {c.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
 
-            <div className='mb-3'>
-              <label className='admin-label'>Image URL</label>
-              <input
-                type='text'
-                placeholder='/images/1.png'
-                className='admin-input'
-                value={formData.imageUrl}
-                onChange={(e) =>
-                  setFormData({ ...formData, imageUrl: e.target.value })
-                }
-              />
-            </div>
+              <div className='mb-3'>
+                <label className='admin-label'>Image URL</label>
+                <input
+                  type='text'
+                  placeholder='/images/1.png'
+                  className='admin-input'
+                  value={formData.imageUrl}
+                  onChange={(e) =>
+                    setFormData({ ...formData, imageUrl: e.target.value })
+                  }
+                />
+              </div>
 
-            <div className='mb-3'>
-              <label className='admin-label'>Description</label>
-              <textarea
-                rows={3}
-                className='admin-input'
-                value={formData.description}
-                onChange={(e) =>
-                  setFormData({ ...formData, description: e.target.value })
-                }
-              />
-            </div>
+              <div className='mb-3'>
+                <label className='admin-label'>Description</label>
+                <textarea
+                  rows={3}
+                  className='admin-input'
+                  value={formData.description}
+                  onChange={(e) =>
+                    setFormData({ ...formData, description: e.target.value })
+                  }
+                />
+              </div>
 
-            <label className='mb-5 flex items-center gap-2 text-sm text-stone-600'>
-              <input
-                type='checkbox'
-                checked={formData.available}
-                onChange={(e) =>
-                  setFormData({ ...formData, available: e.target.checked })
-                }
-              />
-              Available for ordering
-            </label>
+              <label className='mb-5 flex items-center gap-2 text-sm text-stone-600'>
+                <input
+                  type='checkbox'
+                  checked={formData.available}
+                  onChange={(e) =>
+                    setFormData({ ...formData, available: e.target.checked })
+                  }
+                />
+                Available for ordering
+              </label>
 
-            <div className='flex justify-end gap-3'>
-              <button
-                type='button'
-                onClick={() => setIsOpen(false)}
-                className='admin-btn-ghost'
-              >
-                Cancel
-              </button>
-              <button type='submit' disabled={saving} className='admin-btn'>
-                {saving ? 'Saving…' : editingId ? 'Update' : 'Add'}
-              </button>
-            </div>
-          </form>
+              <div className='flex gap-3'>
+                <button
+                  type='button'
+                  onClick={() => setIsOpen(false)}
+                  className='admin-btn-ghost flex-1'
+                >
+                  Cancel
+                </button>
+                <button
+                  type='submit'
+                  disabled={saving}
+                  className='admin-btn flex-[2]'
+                >
+                  {saving ? 'Saving…' : editingId ? 'Update' : 'Add Product'}
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       )}
-    </div>
+    </AdminShell>
   )
 }
 
 function StatCard({ title, value }: { title: string; value: string }) {
   return (
-    <div className='admin-card p-6'>
+    <div className='admin-card p-5 sm:p-6'>
       <p className='mb-1 text-xs font-medium uppercase tracking-widest text-stone-500'>
         {title}
       </p>
