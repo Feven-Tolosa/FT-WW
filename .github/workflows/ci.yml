@@ -24,6 +24,9 @@ jobs:
 
       - name: Typecheck backend
         working-directory: backend
+        env:
+          DATABASE_URL: postgresql://ci:ci@localhost:5432/ci
+          DIRECT_URL: postgresql://ci:ci@localhost:5432/ci
         run: |
           npm ci
           npx prisma generate
