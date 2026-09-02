@@ -4,6 +4,7 @@ import { GeistMono } from 'geist/font/mono'
 import './globals.css'
 import SiteNavbar from '@/components/layout/SiteNavbar'
 import SiteFooter from '@/components/layout/SiteFooter'
+import BackToTop from '@/components/layout/BackToTop'
 
 const geistSans = GeistSans
 const geistMono = GeistMono
@@ -26,6 +27,7 @@ export default function RootLayout({
         <SiteNavbar />
         {children}
         <SiteFooter />
+        <BackToTop />
       </body>
     </html>
   )
