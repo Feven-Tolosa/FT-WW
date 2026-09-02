@@ -10,6 +10,7 @@ project adheres to [Semantic Versioning](https://semver.org).
 ### Added
 
 - GitHub Actions CI pipeline (lint, typecheck, build)
+- Backend `/api/health` endpoint with database connectivity check
 
 ## [0.1.0] - 2026-08-30
 
