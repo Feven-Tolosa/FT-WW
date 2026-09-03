@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import { Heart, Menu, Search, ShoppingBag, X } from 'lucide-react'
 import Container from '../Container'
 import { getWishlist, WISHLIST_EVENT } from '@/lib/wishlist'
+import SearchModal from './SearchModal'
 
 const categories = [
   {
@@ -33,6 +34,7 @@ const navLinks = [
 
 export default function Navbar() {
   const [searchOpen, setSearchOpen] = useState(false)
+  const [searchCount, setSearchCount] = useState(0)
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [wishlistCount, setWishlistCount] = useState(0)
@@ -150,7 +152,10 @@ export default function Navbar() {
           {/* Icons */}
           <div className='flex items-center gap-5 text-white md:gap-6'>
             <button
-              onClick={() => setSearchOpen(true)}
+              onClick={() => {
+                setSearchCount((c) => c + 1)
+                setSearchOpen(true)
+              }}
               aria-label='Search'
               className='transition-opacity hover:opacity-70'
             >
@@ -239,31 +244,12 @@ export default function Navbar() {
         </nav>
       </div>
 
-      {/* Search overlay */}
-      <div
-        className={`fixed inset-0 z-[100] flex items-center justify-center bg-stone-950/95 backdrop-blur-sm transition-opacity duration-300 ${
-          searchOpen ? 'visible opacity-100' : 'invisible opacity-0'
-        }`}
-      >
-        <button
-          onClick={() => setSearchOpen(false)}
-          aria-label='Close search'
-          className='absolute top-8 right-10 text-xl text-white transition-opacity hover:opacity-70'
-        >
-          ✕
-        </button>
-
-        <div className='w-full max-w-2xl px-6'>
-          <input
-            autoFocus={searchOpen}
-            placeholder='Search furniture...'
-            className='w-full border-b border-white/30 bg-transparent py-4 text-2xl font-light text-white outline-none transition-colors placeholder:text-white/30 focus:border-wood-300'
-          />
-          <p className='mt-6 text-sm text-white/40'>
-            Try searching for chairs, tables, beds…
-          </p>
-        </div>
-      </div>
+      {/* Search modal */}
+      <SearchModal
+        key={searchCount}
+        open={searchOpen}
+        onClose={() => setSearchOpen(false)}
+      />
     </header>
   )
 }
