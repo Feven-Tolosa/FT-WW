@@ -28,6 +28,7 @@ app.get('/api', (_req, res) => {
       furniture: 'GET|POST /api/furniture, PUT|DELETE /api/furniture/:id',
       orders: 'POST /api/orders (public), GET /api/orders (admin)',
       notifications: 'GET /api/notifications (admin)',
+      upload: 'POST /api/upload (admin, multipart "image")',
     },
   })
 })
@@ -38,12 +39,14 @@ import categoryRoutes from './routes/category.routes'
 import furnitureRoutes from './routes/furniture.routes'
 import orderRoutes from './routes/order.routes'
 import notificationRoutes from './routes/notification.routes'
+import uploadRoutes from './routes/upload.routes'
 
 app.use('/api/auth', authRoutes)
 app.use('/api/categories', categoryRoutes)
 app.use('/api/furniture', furnitureRoutes)
 app.use('/api/orders', orderRoutes)
 app.use('/api/notifications', notificationRoutes)
+app.use('/api/upload', uploadRoutes)
 
 /* ---------- 404 Handler ---------- */
 app.use((req, res) => {

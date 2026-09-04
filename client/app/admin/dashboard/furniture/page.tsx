@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { X } from 'lucide-react'
 import AdminShell from '@/components/AdminShell'
-import { api, getToken, clearToken } from '@/lib/api'
+import { api, getToken, clearToken, uploadImage } from '@/lib/api'
 import { useRouter } from 'next/navigation'
 
 type Furniture = {
@@ -39,6 +39,8 @@ export default function FurniturePage() {
   const [formData, setFormData] = useState(emptyForm)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
+  const [uploading, setUploading] = useState(false)
+  const [preview, setPreview] = useState<string | null>(null)
 
   // Search / filter / pagination
   const [search, setSearch] = useState('')
@@ -90,6 +92,7 @@ export default function FurniturePage() {
     setEditingId(null)
     setFormData(emptyForm)
     setError('')
+    setPreview(null)
     setIsOpen(true)
   }
 
@@ -104,7 +107,28 @@ export default function FurniturePage() {
       available: item.available ?? true,
     })
     setError('')
+    setPreview(item.imageUrl ?? null)
     setIsOpen(true)
+  }
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    if (!guard()) return
+
+    setUploading(true)
+    setError('')
+    try {
+      const url = await uploadImage(file)
+      setFormData((prev) => ({ ...prev, imageUrl: url }))
+      setPreview(url)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Upload failed')
+    } finally {
+      setUploading(false)
+      // allow re-selecting the same file
+      e.target.value = ''
+    }
   }
 
   const handleSave = async (e: React.FormEvent) => {
@@ -420,15 +444,64 @@ export default function FurniturePage() {
               </div>
 
               <div className='mb-3'>
-                <label className='admin-label'>Image URL</label>
+                <label className='admin-label'>Product Image</label>
+
+                {/* Preview */}
+                {preview ? (
+                  <div className='mb-2 overflow-hidden rounded border border-stone-200'>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={preview}
+                      alt='Product preview'
+                      className='h-44 w-full object-cover'
+                    />
+                  </div>
+                ) : (
+                  <div className='mb-2 flex h-24 items-center justify-center rounded border border-dashed border-stone-300 bg-stone-50 text-xs text-stone-400'>
+                    No image yet
+                  </div>
+                )}
+
+                <div className='flex flex-wrap gap-2'>
+                  <label className='cursor-pointer rounded border border-stone-300 bg-white px-4 py-2 text-sm text-stone-700 transition-colors hover:border-wood-600 hover:text-wood-700'>
+                    {uploading ? 'Uploading…' : 'Upload image'}
+                    <input
+                      type='file'
+                      accept='image/png,image/jpeg,image/webp,image/gif,image/avif,image/svg+xml'
+                      className='hidden'
+                      disabled={uploading}
+                      onChange={handleImageUpload}
+                    />
+                  </label>
+                  {preview && (
+                    <button
+                      type='button'
+                      onClick={() => {
+                        setPreview(null)
+                        setFormData((prev) => ({ ...prev, imageUrl: '' }))
+                      }}
+                      className='rounded border border-red-200 bg-white px-4 py-2 text-sm text-red-600 transition-colors hover:bg-red-50'
+                    >
+                      Remove
+                    </button>
+                  )}
+                </div>
+
+                <p className='mt-1.5 text-xs text-stone-400'>
+                  PNG, JPG, WebP, AVIF, GIF or SVG · max 5 MB · stored in
+                  Supabase Storage
+                </p>
+
+                {/* Optional: paste a URL directly instead */}
                 <input
                   type='text'
-                  placeholder='/images/1.png'
-                  className='admin-input'
+                  placeholder='…or paste an image URL'
+                  className='admin-input mt-2'
                   value={formData.imageUrl}
-                  onChange={(e) =>
+                  onChange={(e) => {
                     setFormData({ ...formData, imageUrl: e.target.value })
-                  }
+                    if (e.target.value) setPreview(e.target.value)
+                  }}
                 />
               </div>
 
