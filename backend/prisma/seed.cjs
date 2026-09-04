@@ -6,7 +6,7 @@ require('dotenv').config()
 
 const adapter = new PrismaPg({
   connectionString: process.env.DATABASE_URL,
-  max: 5,
+  max: 1,
 })
 
 const prisma = new PrismaClient({ adapter })
