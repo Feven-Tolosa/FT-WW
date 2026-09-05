@@ -1,7 +1,7 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
-import { X } from 'lucide-react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { ImageUp, X } from 'lucide-react'
 import AdminShell from '@/components/AdminShell'
 import { api, getToken, clearToken, uploadImage } from '@/lib/api'
 import { useRouter } from 'next/navigation'
@@ -41,6 +41,8 @@ export default function FurniturePage() {
   const [error, setError] = useState('')
   const [uploading, setUploading] = useState(false)
   const [preview, setPreview] = useState<string | null>(null)
+  const [dragActive, setDragActive] = useState(false)
+  const inputRef = useRef<HTMLInputElement>(null)
 
   // Search / filter / pagination
   const [search, setSearch] = useState('')
@@ -111,11 +113,8 @@ export default function FurniturePage() {
     setIsOpen(true)
   }
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (!file) return
+  const uploadFile = async (file: File) => {
     if (!guard()) return
-
     setUploading(true)
     setError('')
     try {
@@ -126,9 +125,23 @@ export default function FurniturePage() {
       setError(err instanceof Error ? err.message : 'Upload failed')
     } finally {
       setUploading(false)
-      // allow re-selecting the same file
-      e.target.value = ''
     }
+  }
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    // allow re-selecting the same file
+    e.target.value = ''
+    if (!file) return
+    await uploadFile(file)
+  }
+
+  const handleDrop = async (e: React.DragEvent) => {
+    e.preventDefault()
+    setDragActive(false)
+    const file = e.dataTransfer.files?.[0]
+    if (!file) return
+    await uploadFile(file)
   }
 
   const handleSave = async (e: React.FormEvent) => {
@@ -448,7 +461,15 @@ export default function FurniturePage() {
 
                 {/* Preview */}
                 {preview ? (
-                  <div className='mb-2 overflow-hidden rounded border border-stone-200'>
+                  <div
+                    onDragOver={(e) => {
+                      e.preventDefault()
+                      setDragActive(true)
+                    }}
+                    onDragLeave={() => setDragActive(false)}
+                    onDrop={handleDrop}
+                    className='mb-2 cursor-pointer overflow-hidden rounded border border-stone-200'
+                  >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={preview}
@@ -457,8 +478,42 @@ export default function FurniturePage() {
                     />
                   </div>
                 ) : (
-                  <div className='mb-2 flex h-24 items-center justify-center rounded border border-dashed border-stone-300 bg-stone-50 text-xs text-stone-400'>
-                    No image yet
+                  <div
+                    role='button'
+                    tabIndex={0}
+                    onClick={() => inputRef.current?.click()}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault()
+                        inputRef.current?.click()
+                      }
+                    }}
+                    onDragOver={(e) => {
+                      e.preventDefault()
+                      setDragActive(true)
+                    }}
+                    onDragLeave={() => setDragActive(false)}
+                    onDrop={handleDrop}
+                    className={`mb-2 flex h-40 cursor-pointer flex-col items-center justify-center gap-2 rounded border-2 border-dashed px-4 text-center transition-colors ${
+                      dragActive
+                        ? 'border-wood-600 bg-wood-50 text-wood-700'
+                        : 'border-stone-300 bg-stone-50 text-stone-400 hover:border-wood-600 hover:text-wood-700'
+                    }`}
+                  >
+                    {uploading ? (
+                      <div className='flex flex-col items-center gap-2'>
+                        <span className='h-6 w-6 animate-spin rounded-full border-2 border-wood-600 border-t-transparent' />
+                        <p className='text-sm'>Uploading…</p>
+                      </div>
+                    ) : (
+                      <>
+                        <ImageUp size={30} strokeWidth={1.5} />
+                        <p className='text-sm font-medium text-stone-600'>
+                          Drag &amp; drop an image here
+                        </p>
+                        <p className='text-xs'>or click to browse your device</p>
+                      </>
+                    )}
                   </div>
                 )}
 
@@ -466,6 +521,7 @@ export default function FurniturePage() {
                   <label className='cursor-pointer rounded border border-stone-300 bg-white px-4 py-2 text-sm text-stone-700 transition-colors hover:border-wood-600 hover:text-wood-700'>
                     {uploading ? 'Uploading…' : 'Upload image'}
                     <input
+                      ref={inputRef}
                       type='file'
                       accept='image/png,image/jpeg,image/webp,image/gif,image/avif,image/svg+xml'
                       className='hidden'

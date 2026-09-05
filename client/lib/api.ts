@@ -28,6 +28,17 @@ export async function api<T = unknown>(
   const res = await fetch(`${API_BASE}${path}`, { ...options, headers })
   const data = await res.json().catch(() => null)
 
+  if (res.status === 401) {
+    clearToken()
+    if (
+      typeof window !== 'undefined' &&
+      !window.location.pathname.startsWith('/admin/login')
+    ) {
+      window.location.assign('/admin/login')
+    }
+    throw new Error('Session expired — please sign in again')
+  }
+
   if (!res.ok) {
     const message =
       (data && (data.message as string)) || `Request failed (${res.status})`
@@ -50,6 +61,17 @@ export async function uploadImage(file: File): Promise<string> {
   })
 
   const data = await res.json().catch(() => null)
+
+  if (res.status === 401) {
+    clearToken()
+    if (
+      typeof window !== 'undefined' &&
+      !window.location.pathname.startsWith('/admin/login')
+    ) {
+      window.location.assign('/admin/login')
+    }
+    throw new Error('Session expired — please sign in again')
+  }
 
   if (!res.ok) {
     const message =
