@@ -28,7 +28,7 @@ export async function api<T = unknown>(
   const res = await fetch(`${API_BASE}${path}`, { ...options, headers })
   const data = await res.json().catch(() => null)
 
-  if (res.status === 401) {
+  if (res.status === 401 && token) {
     clearToken()
     if (
       typeof window !== 'undefined' &&
@@ -62,7 +62,7 @@ export async function uploadImage(file: File): Promise<string> {
 
   const data = await res.json().catch(() => null)
 
-  if (res.status === 401) {
+  if (res.status === 401 && token) {
     clearToken()
     if (
       typeof window !== 'undefined' &&

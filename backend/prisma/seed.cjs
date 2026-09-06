@@ -14,26 +14,25 @@ const prisma = new PrismaClient({ adapter })
 async function main() {
   const admins = [
     {
-      email: 'dawitberiso406@gmail.com',
-      name: 'Dawit (Father)',
+      email: process.env.ADMIN_EMAIL ?? 'tofewoodworks@gmail.com',
+      name: 'TF Wood Works Admin',
       phone: '+251900000000',
-    },
-    {
-      email: 'beriso@tfwoodworks.com',
-      name: 'Beriso (Partner)',
-      phone: '+251911111111',
     },
   ]
 
-  let dawitAdminId
+  let firstAdminId
   for (const a of admins) {
-    const password = await bcrypt.hash('DaW@0663', 10)
+    const password = await bcrypt.hash(
+      process.env.ADMIN_PASSWORD ?? 'tofewood@1works',
+      10
+    )
     const admin = await prisma.admin.upsert({
       where: { email: a.email },
-      update: { name: a.name, phone: a.phone },
+      // Password is always resynced from the env on every seed.
+      update: { name: a.name, phone: a.phone, password },
       create: { ...a, password, role: 'ADMIN' },
     })
-    if (!dawitAdminId) dawitAdminId = admin.id
+    if (!firstAdminId) firstAdminId = admin.id
     console.log(`Admin seeded: ${a.email} (${a.name})`)
   }
 
@@ -98,7 +97,7 @@ async function main() {
         price: item.price,
         imageUrl: item.image,
         available: true,
-        adminId: dawitAdminId,
+        adminId: firstAdminId,
         categoryId: categoryMap[catSlugToName[item.category]],
       },
     })
